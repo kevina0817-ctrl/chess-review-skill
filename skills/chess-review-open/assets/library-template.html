@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- chess-review-library:v1 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的国际象棋复盘</title>
+<style>
+:root{color-scheme:light;--paper:#f5f4ef;--ink:#202c28;--muted:#66746b;--green:#235c45;--soft:#e4eee6;--line:#d9dfd6}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}button,input,select{font:inherit}button,a{touch-action:manipulation}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}button,input,select{border:1px solid var(--line);border-radius:7px;background:white;color:var(--ink);min-height:42px}button{padding:7px 13px}button:hover:not(:disabled){background:var(--soft)}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #dbaa3b;outline-offset:3px}a{color:var(--green)}[hidden]{display:none!important}
+.masthead{max-width:1640px;margin:auto;padding:30px 32px 26px;border-bottom:1px solid var(--line)}.eyebrow{color:var(--green);font-size:12px;font-weight:700;letter-spacing:.12em}.hero{display:flex;align-items:end;justify-content:space-between;gap:25px}h1{font-size:clamp(27px,3vw,38px);line-height:1.2;letter-spacing:-.035em;font-weight:650;margin:13px 0 12px}.intro{color:var(--muted);margin:0;max-width:650px}.stats{display:flex;gap:30px;flex-shrink:0}.stat strong{display:block;font-size:28px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}.stat span{font-size:12px;color:var(--muted)}
+.shell{max-width:1640px;margin:auto;display:grid;grid-template-columns:258px minmax(0,1fr);align-items:start;gap:24px;padding:24px 24px 0 32px}.sidebar{position:sticky;top:18px;max-height:calc(100vh - 36px);overflow:auto;scrollbar-width:thin;padding:0 8px 20px 0}.sidebar h2{font-size:17px;font-weight:650;margin:0 0 15px}.filters{display:grid;gap:8px}label{font-size:12px;color:var(--muted)}input,select{display:block;width:100%;padding:8px 11px}input{min-width:0}#count{font-size:12px;color:var(--muted);margin:15px 0}.day{margin-top:20px}.day h3{font-weight:550;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;margin:0 0 8px}.game{display:block;text-align:left;width:100%;margin:6px 0;padding:12px 13px;line-height:1.5;border-color:transparent;background:transparent}.game:hover{background:#edf0e8}.game[aria-current=true]{background:var(--soft);border-color:#bfd0c2;box-shadow:inset 3px 0 var(--green)}.opponent{display:block;font-weight:650;overflow-wrap:anywhere;font-size:15px}.game-meta{display:flex;gap:8px;color:var(--muted);font-size:12px;margin-top:6px}.game-result{display:block;color:var(--muted);font-size:12px;margin-top:4px}.sidebar-note{font-size:12px;line-height:1.8;color:var(--muted);border-top:1px solid var(--line);padding-top:15px;margin-top:23px}.no-results{color:var(--muted);font-size:14px;padding:20px 0}.reader{min-width:0;scroll-margin-top:12px}.reader-bar{display:flex;gap:12px;justify-content:space-between;align-items:center;padding:2px 12px 17px 6px;border-bottom:1px solid var(--line)}.reader-bar h2{font-size:15px;line-height:1.5;font-weight:600;margin:0;overflow-wrap:anywhere}.reader-bar p{color:var(--muted);font-size:12px;margin:3px 0 0}.reader-actions{display:flex;gap:7px;flex-shrink:0}.reader-actions button{font-size:12px;padding:6px 10px;min-height:36px}.reader-actions #download-review{color:var(--green)}#review-frame{display:block;border:0;width:100%;height:1000px;background:var(--paper)}.bottom{max-width:1640px;margin:auto;padding:18px 32px 30px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.to-top{position:fixed;bottom:20px;right:20px;background:var(--green);color:white;box-shadow:0 4px 18px #203d2f22;z-index:5;font-size:12px}.to-top:hover:not(:disabled){background:#194632}.skip{position:absolute;top:-90px;left:15px;background:white;padding:10px;z-index:20}.skip:focus{top:10px}
+@media(min-width:1800px){.shell{grid-template-columns:275px minmax(0,1fr)}}
+@media(max-width:1100px){.shell{grid-template-columns:220px minmax(0,1fr);gap:12px;padding-left:20px;padding-right:12px}.reader-bar{flex-wrap:wrap}.stats{gap:20px}}
+@media(max-width:850px){.masthead{padding:24px 20px}.hero{align-items:start;flex-direction:column;gap:20px}.stats{gap:32px}.stat strong{font-size:24px}.shell{display:block;padding:20px 0 0}.sidebar{position:static;max-height:none;padding:0 20px 20px}.filters{grid-template-columns:minmax(0,1fr) 110px;align-items:end}.days{display:flex;gap:18px;overflow:auto;padding-bottom:8px;scrollbar-width:thin}.day{flex:0 0 235px;margin-top:5px}.game{border-color:var(--line);background:#fff}.sidebar-note{margin:10px 0 0;padding-top:12px}.reader-bar{padding:17px 20px;background:#edf0e8}.reader{scroll-margin-top:0}.bottom{padding:20px}.to-top{right:12px;bottom:12px}.intro{font-size:14px}}
+@media(max-width:360px){.masthead,.sidebar{padding-left:14px;padding-right:14px}.reader-bar{padding-left:14px;padding-right:14px}.reader-actions{gap:5px}.reader-actions button{padding-left:8px;padding-right:8px}}
+@media print{.sidebar,.reader-actions,.to-top,.bottom{display:none}.shell{display:block;padding:0}.masthead{padding:10px}.reader-bar{border:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#reader">跳到当前复盘</a>
+<header class="masthead" id="top">
+ <div class="eyebrow">CHESS / 我的复盘档案</div>
+ <div class="hero"><div><h1>每一盘，都留下一点进步。</h1><p class="intro">按日期找回你的棋局，在棋盘上重走关键一步。之后贴入新的棋谱，复盘会继续收进这里。</p></div>
+ <div class="stats" aria-label="档案统计"><div class="stat"><strong id="total-games">0</strong><span>盘棋局</span></div><div class="stat"><strong id="total-days">0</strong><span>个对局日</span></div><div class="stat"><strong id="total-lessons">0</strong><span>处复盘重点</span></div></div></div>
+</header>
+<main class="shell">
+ <aside class="sidebar" aria-label="复盘目录"><h2>我的棋局</h2>
+  <div class="filters"><label>搜索日期或对手<input id="search" type="search" placeholder="输入对手名称或日期" autocomplete="off"></label><label>我的执子<select id="side"><option value="all">全部</option><option value="white">执白</option><option value="black">执黑</option></select></label></div>
+  <p id="count" role="status" aria-live="polite"></p><div id="days" class="days"></div>
+  <div class="no-results" id="empty" hidden>没有匹配的棋局。<br><button id="clear">清除筛选</button></div>
+  <p class="sidebar-note">按对局本地日期归档，最新在前。<br>下次把棋谱贴到聊天里即可；更新后，刷新这个网页查看。</p>
+ </aside>
+ <section class="reader" id="reader" aria-label="当前棋局复盘">
+  <div class="reader-bar"><div><h2 id="selected-title"></h2><p id="selected-detail" aria-live="polite"></p></div><div class="reader-actions"><button id="prev-game" aria-label="上一盘棋局">← 上一盘</button><button id="next-game" aria-label="下一盘棋局">下一盘 →</button><button id="download-review">下载本盘 HTML</button></div></div>
+  <iframe id="review-frame" title="互动棋局复盘"></iframe>
+ </section>
+</main>
+<footer class="bottom">所有棋谱与互动复盘都包含在这个文件里，可离线打开。个人笔记保存在当前浏览器，请定期在每盘复盘中导出。</footer>
+<button class="to-top" id="to-top" hidden>↑ 返回棋局目录</button>
+<noscript>请启用浏览器 JavaScript，以显示棋局目录与互动棋盘。</noscript>
+<script id="chess-library-data" type="application/json">/*__LIBRARY_DATA__*/</script>
+<script>
+const library=JSON.parse(document.getElementById('chess-library-data').textContent);
+const games=library.games,$=id=>document.getElementById(id),frame=$('review-frame');
+let selected=null,observer=null,resizePending=false;
+const sideLabel=game=>game.side==='white'?'我执白':'我执黑';
+const textNode=(tag,text,cls)=>{const node=document.createElement(tag);node.textContent=text;if(cls)node.className=cls;return node};
+$('total-games').textContent=games.length;
+$('total-days').textContent=new Set(games.map(game=>game.date)).size;
+$('total-lessons').textContent=games.reduce((sum,game)=>sum+game.lessons,0);
+function filtered(){const query=$('search').value.trim().toLowerCase(),side=$('side').value;return games.filter(game=>(side==='all'||game.side===side)&&(!query||[game.date,game.opponent,game.user].join(' ').toLowerCase().includes(query)))}
+function drawList(){
+ const visible=filtered();$('days').replaceChildren();$('count').textContent=visible.length===games.length?'全部 '+games.length+' 盘 · 最新在前':'找到 '+visible.length+' / '+games.length+' 盘';$('empty').hidden=visible.length>0;
+ let currentDate='',section;
+ for(const game of visible){
+  if(game.date!==currentDate){currentDate=game.date;section=document.createElement('section');section.className='day';section.append(textNode('h3',game.date));$('days').append(section)}
+  const button=document.createElement('button');button.className='game';button.dataset.game=game.id;button.setAttribute('aria-current',String(selected?.id===game.id));
+  button.append(textNode('span',game.opponent,'opponent'),textNode('span',sideLabel(game)+' · '+game.lessons+' 个重点','game-meta'),textNode('span',game.result,'game-result'));
+  button.addEventListener('click',()=>selectGame(game.id,true));section.append(button);
+ }
+ const index=selected?visible.findIndex(game=>game.id===selected.id):-1;
+ $('prev-game').disabled=index<=0;$('next-game').disabled=index<0||index>=visible.length-1;
+}
+function sizeFrame(){
+ if(resizePending)return;resizePending=true;
+ requestAnimationFrame(()=>{resizePending=false;const body=frame.contentDocument?.body;if(!body)return;const height=Math.ceil(Math.max(body.scrollHeight,body.getBoundingClientRect().height))+4;if(Math.abs(frame.getBoundingClientRect().height-height)>2)frame.style.height=height+'px'});
+}
+frame.addEventListener('load',()=>{
+ observer?.disconnect();const doc=frame.contentDocument;if(!doc?.body)return;
+ // Preserve the review's original board, lesson controls and note keys; only fit it to this reader.
+ const style=doc.createElement('style');style.textContent='html,body{min-height:0!important}';doc.head.append(style);
+ observer=new ResizeObserver(sizeFrame);observer.observe(doc.body);sizeFrame();doc.fonts?.ready.then(sizeFrame);
+});
+function selectGame(id,scroll=false){
+ const game=games.find(item=>item.id===id)||games[0];if(!game)return;
+ const changed=selected?.id!==game.id;selected=game;
+ $('selected-title').textContent=game.date+' · 对阵 '+game.opponent;
+ $('selected-detail').textContent=sideLabel(game)+' · '+game.lessons+' 个复盘重点 · 完整互动复盘';
+ if(changed){observer?.disconnect();frame.title=game.date+' 对阵 '+game.opponent+' 的互动复盘';frame.style.height='1000px';frame.srcdoc=game.html}
+ const hash='#game='+encodeURIComponent(game.id);if(location.hash!==hash){try{history.replaceState(null,'',hash)}catch{location.hash=hash}}
+ drawList();if(scroll)$('reader').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function idFromHash(){try{return new URLSearchParams(location.hash.slice(1)).get('game')}catch{return null}}
+function applyFilter(){const visible=filtered();if(visible.length&&!visible.some(game=>game.id===selected?.id))selectGame(visible[0].id);else drawList()}
+$('search').addEventListener('input',applyFilter);$('side').addEventListener('change',applyFilter);
+$('clear').onclick=()=>{$('search').value='';$('side').value='all';drawList();$('search').focus()};
+for(const [id,delta] of [['prev-game',-1],['next-game',1]])$(id).onclick=()=>{const visible=filtered(),index=visible.findIndex(game=>game.id===selected?.id),next=visible[index+delta];if(next)selectGame(next.id,true)};
+$('download-review').onclick=()=>{if(!selected)return;const url=URL.createObjectURL(new Blob([selected.html],{type:'text/html;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download=selected.id+'.html';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)};
+window.addEventListener('hashchange',()=>selectGame(idFromHash()));
+window.addEventListener('resize',sizeFrame);
+window.addEventListener('scroll',()=>{$('to-top').hidden=window.scrollY<650},{passive:true});
+$('to-top').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+selectGame(idFromHash());
+</script>
+</body>
+</html>

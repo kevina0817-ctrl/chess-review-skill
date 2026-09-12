@@ -1,0 +1,4 @@
+interface:
+  display_name: "国际象棋互动复盘（通用版）"
+  short_description: "适用于任意棋手的 PGN 分析、关键走法练习与离线互动复盘网页"
+  default_prompt: "使用 $chess-review-open 分析我提供的棋谱，按本次执子方生成互动复盘并更新复盘目录。"

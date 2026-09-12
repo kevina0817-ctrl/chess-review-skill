@@ -1,0 +1,10 @@
+[Event "Fictional teaching example"]
+[Site "Local example"]
+[Date "2000.01.02"]
+[Round "-"]
+[White "ExampleWhiteB"]
+[Black "ExampleBlackB"]
+[Result "1-0"]
+[TimeControl "300"]
+
+1. e4 e5 2. Qh5 Nc6 3. Bc4 Nf6 4. Qxf7# 1-0

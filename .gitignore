@@ -1,0 +1,8 @@
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+work/
+chess-reviews/
+.env*
+.DS_Store

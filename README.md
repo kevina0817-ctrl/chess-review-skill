@@ -65,4 +65,6 @@ python3 -m venv .venv
 
 ## 许可证
 
-GPL-3.0-or-later。详见 [LICENSE](LICENSE) 和 [第三方说明](skills/chess-review-open/NOTICE.md)。Stockfish 的官方二进制、源码和许可证随包保留；python-chess、Playwright 仍单独安装并保留各自许可证。公开分享生成网页时保留其中棋子图形的署名。
+本项目自有的脚本、网页模板、文档和虚构示例采用 [PolyForm Noncommercial 1.0.0](LICENSE)：任何人都可以免费使用、修改和分享，但**仅限非商业用途**，包括个人学习、爱好、教学、慈善机构、学校、公共科研机构和政府机构等。商业用途需要另行获得作者的书面授权。这是「源码公开、非商业使用」的许可证，不属于 OSI 定义的开源许可证。
+
+第三方组件保留各自的许可证，不受上述非商业限制：Stockfish 19（GPL-3.0，随包附带未修改的官方压缩包，含源码与许可证，脚本只通过 UCI 协议以独立进程调用）；python-chess（GPL-3.0+，由使用者单独安装）；棋子图形（Colin M. L. Burnett，经 python-chess 提供，GPL-3.0+，公开分享生成网页时请保留其中的署名）；Playwright（Apache-2.0，可选，单独安装）。详见 [第三方说明](skills/chess-review-open/NOTICE.md)。

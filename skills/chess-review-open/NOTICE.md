@@ -1,10 +1,14 @@
 # Licensing and dependencies
 
-This skill's scripts, templates and documentation are released under GPL-3.0-or-later. See LICENSE.
+This skill's own scripts, HTML templates, documentation and fictional examples are released under the PolyForm Noncommercial License 1.0.0. See LICENSE. Anyone may use, copy, modify and share them free of charge for noncommercial purposes (personal study, hobby projects, teaching, charities, schools, public research bodies and government institutions). Commercial use needs separate written permission from the copyright holder. This is a source-available noncommercial license, not an OSI-approved open source license.
 
-- python-chess (`chess` on PyPI), by Niklas Fiekas and contributors: GPL-3.0-or-later. Installed separately. https://python-chess.readthedocs.io/en/latest/#license
-- The generated piece SVG artwork comes from python-chess and credits Colin M. L. Burnett under GPL-3.0-or-later. Preserve the attribution in generated pages. https://github.com/niklasf/python-chess/blob/master/chess/svg.py
-- Stockfish 19 is bundled as five unmodified official desktop distribution archives under `vendor/stockfish/`, invoked through UCI. Every archive includes upstream source, build scripts, authorship and GPL license files. See `vendor/stockfish/README.md` and `manifest.json` for exact origins and checksums. https://stockfishchess.org/download/
-- Playwright is an optional browser-testing dependency, installed separately. https://github.com/microsoft/playwright
+Required Notice: Copyright 2026 Atomica (https://github.com/kevina0817-ctrl/chess-review-skill)
+
+Third-party components keep their own licenses. The noncommercial restriction above applies only to this project's own files, never to these components:
+
+- Stockfish 19, by the Stockfish developers: GPL-3.0. Bundled as five unmodified official desktop distribution archives under `vendor/stockfish/`, each including upstream source, build scripts, AUTHORS and the GPL license text (Copying.txt). The skill starts Stockfish as a separate process and talks to it only over the UCI protocol; it does not link against or modify it. See `vendor/stockfish/README.md` and `manifest.json` for exact origins and checksums. https://stockfishchess.org/download/ · https://github.com/official-stockfish/Stockfish
+- python-chess (`chess` on PyPI), by Niklas Fiekas and contributors: GPL-3.0-or-later. Installed separately by the user with pip; not redistributed here. https://python-chess.readthedocs.io/en/latest/#license
+- Chess piece SVG artwork by Colin M. L. Burnett, distributed through python-chess under GPL-3.0-or-later and embedded in generated review pages at build time. Preserve the attribution line in generated pages. https://github.com/niklasf/python-chess/blob/master/chess/svg.py
+- Playwright, by Microsoft: Apache-2.0. Optional browser-testing dependency, installed separately. https://github.com/microsoft/playwright
 
 The example PGNs use fictional participant names and are teaching sequences, not personal game records. This repository contains no personal review archive or hosting configuration.

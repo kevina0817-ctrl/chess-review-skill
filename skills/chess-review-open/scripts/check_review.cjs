@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Browser-level checks for the generated standalone review; no external requests needed.
 const fs=require('fs');
 const path=require('path');

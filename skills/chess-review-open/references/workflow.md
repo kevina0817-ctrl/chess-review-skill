@@ -2,7 +2,7 @@
 
 ## 依赖
 
-需要 Python 3.10+、`chess` Python 包（python-chess 项目）和本地 Stockfish。浏览器测试另外需要 Node.js 18+、Playwright 和 Chromium。生成网页本身不需要 Node.js，浏览成品不需要 Python 或 Stockfish。
+需要 Python 3.10+ 和 `chess` Python 包（python-chess 项目）。Stockfish 19 已包含在技能的 `vendor/stockfish/` 中。浏览器测试另外需要 Node.js 18+、Playwright 和 Chromium。生成网页本身不需要 Node.js，浏览成品不需要 Python 或 Stockfish。
 
 在任意项目工作目录创建独立 Python 环境。以下 `SKILL_DIR` 指向安装后的技能文件夹；路径由当前机器决定。
 
@@ -13,13 +13,15 @@ python3 -m venv .venv
 
 Windows 使用 `.venv\Scripts\python.exe` 替代 `.venv/bin/python`。若宿主已经提供可用依赖，直接使用它，不覆盖全局环境。
 
-从 [Stockfish 官网](https://stockfishchess.org/download/) 下载适合当前系统的可执行程序，或使用用户已有的本地安装。以 `--engine` 指定实际路径，或将 `stockfish` 加入 PATH。二进制单独安装，不打包进技能。不要硬编码某位用户的路径，不为每盘重复下载。
+包内自带官方 Stockfish 19：macOS 通用版、Windows x86-64/ARM64、Linux x86-64/ARM64。保持整个技能文件夹完整，尤其是 `vendor/stockfish/`。脚本自动选择对应包、校验 SHA-256 并解压，无需用户单独下载引擎。原始压缩包同时保留上游源码、构建脚本和许可证。
+
+默认缓存为分析输出 JSON 所在目录的 `engine-cache/`，可用 `--engine-cache` 指定其他可写目录。可提前执行 `python scripts/bundled_engine.py --verify` 检查本机引擎；它默认使用当前目录下的 `work/engine-cache/`。不支持的架构会明确报错，可用 `--engine /actual/path/to/engine` 显式覆盖；不会静默联网下载。
 
 ## 校验与分析
 
 ```sh
 .venv/bin/python "$SKILL_DIR/scripts/prepare_game.py" game.pgn --out-dir work/prepared
-.venv/bin/python "$SKILL_DIR/scripts/analyze_game.py" work/prepared/normalized.pgn --perspective black --engine /actual/path/to/stockfish --out work/analysis.json
+.venv/bin/python "$SKILL_DIR/scripts/analyze_game.py" work/prepared/normalized.pgn --perspective black --out work/analysis.json
 ```
 
 `--perspective` 必须对应本次确认的执子方。默认逐局面分析 0.3 秒，最值得复查的最多 8 步前后局面各加深 1.5 秒；复杂战术可以进一步增加时间或核对多个候选。`rank_score` 内部用极值排序将死，不能展示为正常分数。

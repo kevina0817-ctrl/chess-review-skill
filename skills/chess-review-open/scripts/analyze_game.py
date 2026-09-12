@@ -3,26 +3,27 @@
 """Screen every position and refine instructive moves using a local UCI engine."""
 import argparse
 import json
-import shutil
 from pathlib import Path
 import chess.engine
 from chess_common import chess, load_game, label, pv_san
+from bundled_engine import resolve_engine
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('pgn');p.add_argument('--game',type=int)
     p.add_argument('--perspective',choices=['white','black'],required=True)
-    p.add_argument('--engine',default=shutil.which('stockfish'))
+    p.add_argument('--engine',help='Optional explicit UCI engine; defaults to bundled Stockfish')
+    p.add_argument('--engine-cache',help='Unpack cache; defaults to engine-cache beside the output JSON')
     p.add_argument('--seconds',type=float,default=.3)
     p.add_argument('--refine-seconds',type=float,default=1.5)
     p.add_argument('--refine-count',type=int,default=8)
     p.add_argument('--out',required=True)
     args=p.parse_args()
-    if not args.engine: p.error('Supply --engine with the verified local Stockfish executable path.')
     if args.seconds<=0 or args.refine_seconds<=0: p.error('Analysis durations must be positive.')
     game,boards,moves,_=load_game(args.pgn,args.game)
     user_color=args.perspective=='white'
-    engine=chess.engine.SimpleEngine.popen_uci(args.engine)
+    engine_path=resolve_engine(args.engine,args.engine_cache or Path(args.out).parent/'engine-cache')
+    engine=chess.engine.SimpleEngine.popen_uci(engine_path)
     try:
         for key,value in [('Threads',2),('Hash',128)]:
             if key in engine.options: engine.configure({key:value})

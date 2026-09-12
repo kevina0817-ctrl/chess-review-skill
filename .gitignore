@@ -6,3 +6,4 @@ work/
 chess-reviews/
 .env*
 .DS_Store
+engine-cache/

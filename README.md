@@ -1,70 +1,103 @@
 # Chess Review Open · 国际象棋互动复盘技能
 
-适用于任意棋手的 Agent Skill：把 PGN、棋谱文件或清晰截图转成带中文讲解的互动复盘网页。不绑定用户名、设备目录或托管平台。
+把你刚下完的一盘棋（PGN 棋谱）交给 AI 编程助手，几分钟后得到一个可以直接在浏览器里打开的**互动复盘网页**：哪一步走错了、当时应该怎么走、自己在棋盘上再试一次。中文讲解，离线可用，不需要注册任何网站。
 
-提供完整回放、关键步分析、实战/改进对比、合法试走、提示、笔记和 PGN 下载。支持将多盘复盘汇总到一个离线 `index.html`。
+适用于 Codex、Claude Code、Kimi 等任何支持 Agent Skills（`SKILL.md`）格式的 AI 助手。
 
-## 安装与使用
+## 一分钟安装
 
-1. 下载本仓库，把 `skills/chess-review-open` 整个文件夹放进支持 Agent Skills 的助手的技能目录。Codex 的默认用户技能目录是 `~/.codex/skills/`，安装后目录名保持 `chess-review-open`。
-2. 准备 Python 3.10+。**Stockfish 19 已包含在技能文件夹中，无需单独下载或设置路径。**Python 依赖列在技能的 `requirements.txt`。浏览器测试额外需要 Node.js 18+、Playwright 和 Chromium；完整步骤见 [运行说明](skills/chess-review-open/references/workflow.md)。
-3. 在助手中选择该技能，贴入 PGN。例如：
+打开终端，粘贴这一行回车，就会把整个技能（含棋类引擎）下载到当前文件夹：
 
-> 使用 $chess-review-open 分析这份棋谱。我执黑，输出到当前项目的 chess-reviews 文件夹。请指出最关键的失误和更好的下法，并生成互动网页。
-
-也可以提供棋谱文件或清晰截图。执子方不明时助手会询问；不要求注册特定棋谱网站账号。默认界面为中文。
-
-## 包内引擎
-
-仓库实际包含五份官方 Stockfish 19 压缩包，总计约 406 MB，普通 Git clone 或 GitHub「Code → Download ZIP」都会包含它们，不使用 Git LFS 指针。请复制整个技能文件夹，包含 `vendor/stockfish/`。
-
-- macOS：Apple Silicon 与 Intel（同一通用包）。
-- Windows：x86-64 与 ARM64。
-- Linux：x86-64 与 ARM64。
-
-首次分析自动选择本机版本、校验 SHA-256 并解压。无需联网下载引擎；缓存默认位于分析结果 JSON 旁的 `engine-cache/`。后续复用缓存，损坏时从包内重新解压。安装 Python 依赖仍可能需要联网。其他系统或架构可用 `--engine` 指定自有引擎。
-
-验证包内引擎：
-
-```sh
-.venv/bin/python skills/chess-review-open/scripts/bundled_engine.py --verify
-.venv/bin/python skills/chess-review-open/scripts/analyze_game.py skills/chess-review-open/examples/black.pgn --perspective black --out work/analysis.json
+```bash
+git clone https://github.com/kevina0817-ctrl/chess-review-skill.git
 ```
 
-macOS 已实际启动并完成示例分析；Windows/Linux 包已核对官方校验值、二进制、源码和许可证，但未在本项目维护环境中实际运行。
+没有 git 的话，在本页右上角点 **Code → Download ZIP**，下载后解压即可。
 
-## 它怎样工作
+然后把里面的 `skills/chess-review-open` 文件夹放进你所用 AI 助手的技能目录（每个助手的目录位置不同，查看该助手关于 Skills 的说明即可）。也可以不安装：直接把整个仓库放在你的项目文件夹里，告诉助手「按照 `chess-review-skill/skills/chess-review-open/SKILL.md` 帮我复盘」。
 
-PGN → python-chess 合法性检查 → 本地 Stockfish 分析 → AI 助手撰写教学讲解 → 生成并验证 HTML → 更新复盘目录。
+电脑上需要有 Python 3.10 或更新版本。其他东西都不用再下载：Stockfish 棋类引擎已经打包在技能里，唯一的 Python 依赖包（python-chess）助手第一次运行时会按技能说明自动安装，也可以自己提前装好：
 
-该项目是一套由 AI 助手执行的技能，不是独立的聊天模型或上传服务器。Stockfish 在本机分析阶段运行，不在成品网页里实时运行。截图转写使用宿主助手的图像能力。没有引擎时必须如实注明人工分析。
-
-默认输出在使用者当前工作目录的 `chess-reviews/`，可指定其他目录。不会自动发布网站。笔记只保存在当前浏览器，可导出，不跨设备自动同步。
-
-## 不用真实棋局也能试用
-
-以下示例在 macOS/Linux 终端从仓库根目录执行；Windows 使用 `.venv\Scripts\python.exe` 替代 `.venv/bin/python`。
-
-```sh
-python3 -m venv .venv
-.venv/bin/python -m pip install -r skills/chess-review-open/requirements.txt
-.venv/bin/python skills/chess-review-open/scripts/build_review.py skills/chess-review-open/examples/black.pgn skills/chess-review-open/examples/black-review.json --out-dir chess-reviews
-.venv/bin/python skills/chess-review-open/scripts/build_review.py skills/chess-review-open/examples/white.pgn skills/chess-review-open/examples/white-review.json --out-dir chess-reviews
-.venv/bin/python skills/chess-review-open/scripts/build_library.py chess-reviews
+```bash
+pip install chess
 ```
 
-打开 `chess-reviews/index.html`。两个样例是虚构教学记录，附有已写好的示例讲解；上面的演示构建无需 Stockfish。重新执行构建时使用新的暂存目录，脚本不会覆盖已有单盘 HTML。
+## 怎么用
+
+1. **复制棋谱。** 在 Chess.com 打开你下完的对局，点「分享」→「PGN」复制；Lichess 在对局页面下方的「FEN & PGN」里复制。
+2. **贴给助手，说明你执白还是执黑。** 例如：
+
+   > 用 chess-review-open 帮我复盘这盘棋，我执黑。指出最关键的失误和更好的下法，生成互动网页。
+   >
+   > [Event "Live Chess"] ... 1. e4 Nf6 2. Nc3 e5 ...
+
+3. **打开网页。** 助手会在你的项目里生成 `chess-reviews/日期_对手.html`，双击用浏览器打开就能用。以后每盘棋都会收进同一个 `chess-reviews/index.html` 档案里。
+
+## 功能展示
+
+**关键复盘：实战走法 vs 改进走法。** 每盘棋挑出 4–8 个最值得学的瞬间，用一句话讲清楚为什么，棋盘上直接画出箭头。
+
+![关键复盘：改进走法](docs/screenshots/lesson-better.png)
+
+**自己试走。** 先不看答案，从真实局面出发自己走一步，网页会判断走法是否合法、是否就是更好的那一手，并给提示。
+
+![自己试走并得到反馈](docs/screenshots/practice.png)
+
+**整盘回放。** 逐步前进、后退或自动播放，随时翻转棋盘，下载 PGN 到其他软件继续研究。
+
+![整盘回放](docs/screenshots/replay.png)
+
+**复盘档案。** 所有对局按日期收在同一个网页里，可以搜索对手、筛选执白执黑，每盘都能完整互动。
+
+![复盘档案总入口](docs/screenshots/library.png)
+
+**手机也能看。** 单个 HTML 文件，发到手机上直接打开，没有网络也能用。
+
+<img src="docs/screenshots/mobile.png" alt="手机上的复盘页面" width="360">
+
+## 和其他复盘方式有什么不同
+
+| | 直接在聊天里问 AI | Chess.com / Lichess 的对局分析 | 本技能 |
+|---|---|---|---|
+| 讲解 | 只有文字，靠想象棋盘 | 引擎评分和「妙手 / 失误」标签，解释很少 | 针对你这一方的中文讲解，说清具体棋子、格子和后果 |
+| 准确性 | AI 可能记错局面、编造走法 | 引擎准确 | 每个走法都经过规则校验，关键局面用 Stockfish 核对 |
+| 练习 | 无 | 部分功能需付费 | 每个关键局面都能自己试走，免费 |
+| 文件归属 | 留在聊天记录里 | 留在网站上 | 生成在你自己电脑里的 HTML，离线可用，可自由分享 |
+
+## 它是怎么工作的
+
+```
+你贴入 PGN → 脚本校验每一步是否合法 → 内置 Stockfish 逐局面分析
+→ AI 助手挑选教学重点并撰写中文讲解 → 生成单文件 HTML 并自动检查 → 更新复盘档案
+```
+
+讲解由 AI 助手根据引擎结果撰写，不是引擎自动生成的文字。Stockfish 只在你电脑上分析时运行；生成的网页不需要引擎，也不联网。技能没有服务器，不上传你的棋谱。
+
+## 输入与输出
+
+**输入：** 一盘棋的 PGN 棋谱文本，也就是像 `1. e4 e5 2. Nf3 Nc6 ...` 这样的着法记录，带不带 `[Event ...]` 这类头部信息都可以；也接受 `.pgn` 文件或清晰的棋谱截图。另外告诉助手你执白还是执黑（如果 PGN 里有你的用户名，助手会自动判断）。
+
+**输出：** 三个文件，都在 `chess-reviews/` 文件夹里。
+
+- `日期_对手.html`：这盘棋的互动复盘网页。
+- `日期_对手.pgn`：整理后的棋谱，可导入其他软件。
+- `index.html`：所有对局的档案总入口，每次新增会自动更新。
+
+网页里的个人笔记保存在当前浏览器中，可导出，不会自动上传。
 
 ## 目录
 
-- `skills/chess-review-open/SKILL.md`：助手工作流程。
+- `skills/chess-review-open/SKILL.md`：助手的工作流程。
 - `scripts/`：棋谱校验、引擎调用、网页构建及浏览器检查。
-- `assets/`：单盘和总入口 HTML 模板。
-- `references/`：运行说明与复盘 JSON 格式。
-- `examples/`：虚构白方、黑方教学样例。
+- `assets/`：单盘和总入口的 HTML 模板。
+- `vendor/stockfish/`：内置的官方 Stockfish 19（macOS、Windows、Linux）。
+- `references/`：运行说明与复盘数据格式。
+- `examples/`：两个虚构的教学样例，用来检查模板。
 
 ## 许可证
 
-本项目自有的脚本、网页模板、文档和虚构示例采用 [PolyForm Noncommercial 1.0.0](LICENSE)：任何人都可以免费使用、修改和分享，但**仅限非商业用途**，包括个人学习、爱好、教学、慈善机构、学校、公共科研机构和政府机构等。商业用途需要另行获得作者的书面授权。这是「源码公开、非商业使用」的许可证，不属于 OSI 定义的开源许可证。
+装好这个包就可以直接用，不需要再单独下载任何东西。
 
-第三方组件保留各自的许可证，不受上述非商业限制：Stockfish 19（GPL-3.0，随包附带未修改的官方压缩包，含源码与许可证，脚本只通过 UCI 协议以独立进程调用）；python-chess（GPL-3.0+，由使用者单独安装）；棋子图形（Colin M. L. Burnett，经 python-chess 提供，GPL-3.0+，公开分享生成网页时请保留其中的署名）；Playwright（Apache-2.0，可选，单独安装）。详见 [第三方说明](skills/chess-review-open/NOTICE.md)。
+本项目自有的脚本、网页模板、文档和示例采用 [PolyForm Noncommercial 1.0.0](LICENSE)：任何人都可以免费使用、修改和分享，但**仅限非商业用途**（个人学习、爱好、教学、学校、非营利机构等）。商业用途请先联系 Mission Nine Lab Inc. 获得书面授权。
+
+包里内置的 Stockfish 引擎、自动安装的 python-chess 以及棋子图形是第三方作品，保留它们各自的许可证，不受上述非商业限制。详见 [第三方说明](skills/chess-review-open/NOTICE.md)。

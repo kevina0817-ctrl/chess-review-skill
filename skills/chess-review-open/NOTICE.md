@@ -2,7 +2,7 @@
 
 This skill's own scripts, HTML templates, documentation and fictional examples are released under the PolyForm Noncommercial License 1.0.0. See LICENSE. Anyone may use, copy, modify and share them free of charge for noncommercial purposes (personal study, hobby projects, teaching, charities, schools, public research bodies and government institutions). Commercial use needs separate written permission from the copyright holder. This is a source-available noncommercial license, not an OSI-approved open source license.
 
-Required Notice: Copyright 2026 Atomica (https://github.com/kevina0817-ctrl/chess-review-skill)
+Required Notice: Copyright 2026 Mission Nine Lab Inc. (https://github.com/kevina0817-ctrl/chess-review-skill)
 
 Third-party components keep their own licenses. The noncommercial restriction above applies only to this project's own files, never to these components:
 

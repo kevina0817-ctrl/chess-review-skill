@@ -4,6 +4,7 @@ Scope: these terms cover the chess-review-skill scripts, HTML templates,
 documentation and fictional examples in this repository. They allow anyone
 to use, copy, modify and share the software for noncommercial purposes only.
 Commercial use requires separate written permission from the licensor.
+Contact Mission Nine Lab Inc. at info@mission9lab.com.
 
 Third-party components keep their own licenses and are not covered by these
 terms: the unmodified official Stockfish 19 archives under vendor/stockfish/

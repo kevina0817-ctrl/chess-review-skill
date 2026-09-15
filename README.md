@@ -102,6 +102,6 @@ pip install chess
 
 装好这个包就可以直接用，不需要再单独下载任何东西。
 
-本项目自有的脚本、网页模板、文档和示例采用 [PolyForm Noncommercial 1.0.0](LICENSE)：任何人都可以免费使用、修改和分享，但**仅限非商业用途**（个人学习、爱好、教学、学校、非营利机构等）。商业用途请先联系 Mission Nine Lab Inc. 获得书面授权。
+本项目自有的脚本、网页模板、文档和示例采用 [PolyForm Noncommercial 1.0.0](LICENSE)：任何人都可以免费使用、修改和分享，但**仅限非商业用途**（个人学习、爱好、教学、学校、非营利机构等）。商业用途请先联系 Mission Nine Lab Inc.（[info@mission9lab.com](mailto:info@mission9lab.com)）获得书面授权。
 
 包里内置的 Stockfish 引擎、自动安装的 python-chess 以及棋子图形是第三方作品，保留它们各自的许可证，不受上述非商业限制。详见 [第三方说明](skills/chess-review-open/NOTICE.md)。

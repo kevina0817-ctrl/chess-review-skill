@@ -1,0 +1,4 @@
+interface:
+  display_name: "Common Leaks · 漏洞与进步"
+  short_description: "累计十盘复盘后归纳常见漏洞，用动画对比持续记录新问题和真实进步"
+  default_prompt: "使用 $chess-common-leaks 检查我已完成的复盘数量，并整理常见漏洞与进步。"

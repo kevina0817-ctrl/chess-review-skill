@@ -1,0 +1,26 @@
+{
+  "name": "chess-review",
+  "version": "2.0.0",
+  "description": "Chess.com 用户名自动取谱与中文互动复盘；累计 10 盘复盘后可开启持续更新的常见漏洞与进步档案。",
+  "author": {
+    "name": "Mission Nine Lab Inc."
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Chess Review Open 2.0 · 国际象棋互动复盘",
+    "shortDescription": "自动取谱、互动复盘，以及持续积累的常见漏洞与进步。",
+    "longDescription": "首次告诉代理 Chess.com 用户名，以后直接请求 review 最新一盘。支持 PGN 输入；积累至少 10 盘已完成复盘后，按需开启 Common leaks 并随新棋局增量更新。",
+    "developerName": "Mission Nine Lab Inc.",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "我的 Chess.com 用户名是 YOUR_USERNAME，帮我复盘最新一盘。",
+      "我已经积累了至少 10 盘复盘，帮我整理 common leaks。"
+    ]
+  },
+  "repository": "https://github.com/kevina0817-ctrl/chess-review-skill",
+  "license": "PolyForm-Noncommercial-1.0.0"
+}

@@ -4,6 +4,7 @@
 import argparse
 import datetime
 import hashlib
+import html
 import json
 import re
 from pathlib import Path
@@ -68,6 +69,14 @@ def build(directory, output=None):
     payload = payload.replace('<', '\\u003c').replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
     template = (Path(__file__).resolve().parent.parent / 'assets/library-template.html').read_text(encoding='utf-8')
     content = template.replace('/*__LIBRARY_DATA__*/', payload)
+    leak_pages = sorted(directory.glob('common-leaks*.html'))
+    links = []
+    for leak in leak_pages:
+        source = leak.read_text(encoding='utf-8')
+        if '<script id="visual-data"' in source:
+            links.append('<a href="' + html.escape(leak.name, quote=True) + '">我的常见漏洞：原走法与建议对比 →</a>')
+    if links:
+        content = content.replace('</header>', '<p style="margin:18px 0 0">' + ' · '.join(links) + '</p>\n</header>', 1)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_name(output.name + '.tmp')
     temporary.write_text(content, encoding='utf-8')

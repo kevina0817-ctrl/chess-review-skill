@@ -17,6 +17,10 @@ Windows 使用 `.venv\Scripts\python.exe` 替代 `.venv/bin/python`。若宿主�
 
 默认缓存为分析输出 JSON 所在目录的 `engine-cache/`，可用 `--engine-cache` 指定其他可写目录。可提前执行 `python scripts/bundled_engine.py --verify` 检查本机引擎；它默认使用当前目录下的 `work/engine-cache/`。不支持的架构会明确报错，可用 `--engine /actual/path/to/engine` 显式覆盖；不会静默联网下载。
 
+## Chess.com 用户名输入
+
+无 PGN 的最新棋局请求按 [用户名导入](chesscom-import.md) 使用 `fetch_chesscom.py`。默认 1 盘，随后使用返回 PGN 和逐盘颜色继续以下流程。首次不自动处理整本历史或运行 common leaks。
+
 ## 校验与分析
 
 ```sh
@@ -66,3 +70,7 @@ node "$SKILL_DIR/scripts/check_library.cjs" chess-reviews/index.html work/librar
 ## 公开分享
 
 技能不依赖特定棋谱网站，支持标准 PGN。默认生成文件，可离线打开。上传生成网页到任意静态托管需使用者自己授权与配置。该技能没有服务器、用户登录或自动上传服务；AI 助手在使用者的环境执行流程。
+
+## 可选跨局成长档案
+
+单盘复盘不以此功能为前提。通过同插件 `chess-common-leaks` 处理：至少 10 盘已完成互动复盘后，用户按需开启；之后单盘复盘完成就增量更新。仅下载棋谱不计入门槛。`build_library.py` 自动保留 `common-leaks.html` 入口。

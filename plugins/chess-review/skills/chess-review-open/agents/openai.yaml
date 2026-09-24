@@ -1,0 +1,4 @@
+interface:
+  display_name: "Chess Review · 自动取谱复盘"
+  short_description: "记住 Chess.com 用户名，按需自动取谱复盘，也支持粘贴 PGN 和离线网页"
+  default_prompt: "使用 $chess-review-open 连接我提供的 Chess.com 用户名，并复盘最新一盘。"

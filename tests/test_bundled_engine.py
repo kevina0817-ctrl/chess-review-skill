@@ -9,7 +9,7 @@ import tempfile
 import unittest
 import zipfile
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'skills/chess-review-open/scripts'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'plugins/chess-review/skills/chess-review-open/scripts'))
 from bundled_engine import platform_key, unpack_engine, resolve_engine
 
 

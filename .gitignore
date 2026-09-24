@@ -7,3 +7,6 @@ chess-reviews/
 .env*
 .DS_Store
 engine-cache/
+
+.chess-review-account.json
+.chess-review-preferences.json

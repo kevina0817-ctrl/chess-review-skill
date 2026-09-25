@@ -17,11 +17,13 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 ## 一分钟安装
 
-打开 **Codex 或其他 Coding Agent 桌面版**，新建一个对话，把下面这行命令发给它，让它帮你完成安装：
+打开 **Codex 或其他 Coding Agent 桌面版**，新建一个对话，复制发送下面这句话：
 
-```bash
-git clone https://github.com/kevina0817-ctrl/chess-review-skill.git
+```text
+帮我安装这个仓库里的 Chess Review 插件和两个 skill，并配置好运行依赖：https://github.com/kevina0817-ctrl/chess-review-skill
 ```
+
+安装完成后，就可以告诉助手你的 Chess.com 用户名，开始复盘。
 
 ## 怎么用
 

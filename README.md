@@ -17,25 +17,11 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 ## 一分钟安装
 
-打开终端，粘贴这一行回车，就会把整个技能（含棋类引擎）下载到当前文件夹：
+打开 **Codex 或其他 Coding Agent 桌面版**，新建一个对话，把下面这行命令发给它，让它帮你完成安装：
 
 ```bash
 git clone https://github.com/kevina0817-ctrl/chess-review-skill.git
 ```
-
-或者在本页右上角点 **Code → Download ZIP**，下载后解压就可以了。
-
-把 `plugins/chess-review/skills/` 下的两个 skill 文件夹一起放进助手的技能目录，保持相邻并保留完整资源。支持 Codex 插件格式的助手，也可加载整个 `plugins/chess-review` 目录。
-
-也可以直接把仓库放进项目，告诉助手「按照 `chess-review-skill/plugins/chess-review/skills/chess-review-open/SKILL.md` 帮我复盘」。
-
-电脑上需要有 Python 3.10 或更新版本。Stockfish 棋类引擎已经打包在技能里，Python 依赖包（python-chess）助手第一次运行时会按技能说明安装，也可以自己提前装好：
-
-```bash
-pip install chess
-```
-
-网页自动检查还需要 Node.js、Playwright 和浏览器，助手会优先使用已有环境。包里包含多平台引擎，首次下载约 400 MB，实际等待时间取决于网络；生成好的复盘网页不需要这些依赖。
 
 ## 怎么用
 

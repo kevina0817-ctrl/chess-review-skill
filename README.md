@@ -18,7 +18,7 @@
 
 Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复盘，**`chess-common-leaks`** 负责跨局漏洞分析。
 
-## 一分钟安装
+## 快速安装
 
 打开 **Codex 或其他 Coding Agent 桌面版**，新建一个对话，复制发送下面这句话：
 
@@ -26,20 +26,36 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 帮我安装这个仓库里的 Chess Review 插件和两个 skill，并配置好运行依赖：https://github.com/kevina0817-ctrl/chess-review-skill
 ```
 
-安装完成后，就可以告诉助手你的 Chess.com 用户名，开始复盘。
+安装完成后，就可以告诉助手你的 Chess.com 用户名，开始复盘。如果你已经安装过旧版本，直接让助手更新这个 skill 即可。
 
 ## 怎么用
 
 1. **告诉助手用户名。** 「我的 Chess.com 用户名是 YOUR_USERNAME，帮我复盘最新一盘。」助手会记住用户名，并自动判断你每盘执白还是执黑。
-2. **以后直接说。** 「帮我 review 最新一盘」或「帮我复盘最近三盘」。使用其他平台，粘贴 PGN 并说明自己是哪一方即可。
+2. **直接提出请求。** 让助手复盘一盘棋，例如「帮我复盘上一盘」。默认复盘你最新完成的一盘棋；也可以要求复盘最近几盘，或通过日期、对手、对局链接指定某一盘。使用其他平台，粘贴 PGN 并说明自己是哪一方即可。
 3. **打开网页。** 复盘保存在 `chess-reviews/日期_对手.html`，所有棋局收进同一个 `index.html` 档案。
 4. **积累后找漏洞。** 完成至少 10 盘复盘后，说「帮我整理 common leaks」。开启后，新复盘会自动补充到已有档案。
 
-默认只复盘最新一盘；已复盘过则提供已有记录。Chess.com 公开棋谱可能延迟收录，未取到新棋时会说明。
+指定的棋局如果已经复盘过，助手会提供已有记录。Chess.com 公开棋谱可能延迟收录，未取到新棋时会说明。
 
 ## 功能展示
 
+先看一眼完整复盘：数据曲线、互动棋盘和关键步讲解，都在同一页里。
+
+![复盘整体展示：双方分数、局面曲线、棋盘和关键步讲解](docs/screenshots/review-overview.png)
+
+*公开历史教学示例：1858 年歌剧院棋局。*
+
 ### 一、复盘
+
+看懂这盘棋，学习自己和对手的好棋与失误，并在棋盘上试走。结合分数、潜在威胁和开局计划，理解每个关键决定。
+
+<details>
+<summary><strong>展开复盘详情与截图</strong></summary>
+
+点击下面的小节，查看具体功能。
+
+<details>
+<summary><strong>双方好坏棋、分数与局面曲线</strong></summary>
 
 **双方一起看，数据跟着棋盘走。** 查看我方和对手的关键步、好棋与失误；点击评估曲线跳回实战，优劣势条随当前局面变化。
 
@@ -47,11 +63,19 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 ![3.0：双方参考分、阶段分项与可点击曲线](docs/screenshots/v3-insights.png)
 
-**看懂后续威胁。** 引擎示范单独标记将军、吃子与将死。建议变化与实际棋谱始终分开。
+</details>
 
-![3.0：优劣势条与引擎威胁示范](docs/screenshots/v3-threats.png)
+<details>
+<summary><strong>看看接下来可能发生什么</strong></summary>
 
-*以上 3.0 截图来自公开历史教学棋局，不是使用者的私人记录。*
+**往后看几步，理解眼前的威胁。** 回放国际象棋分析引擎 Stockfish 建议的一段可能走法，看看双方接下来可能出现的将军、吃子和将杀，帮助你理解威胁、寻找应对。这是后续走法的示范，不代表对手一定会这样下；示范始终与实战棋谱分开。
+
+![后续走法示范：看清将军、吃子和将杀](docs/screenshots/v3-threats.png)
+
+</details>
+
+<details>
+<summary><strong>开局识别与学习</strong></summary>
 
 **开局识别与学习：从自己的实战学开局。** 展开「从这盘学开局」，查看实际局面匹配到的开局名称、ECO 编号和开局走法。
 
@@ -61,29 +85,65 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 *截图来自公开历史教学棋局。开局识别可离线使用，外部学习资料需要联网。*
 
+</details>
+
+<details>
+<summary><strong>关键局面：实战走法 vs 建议走法</strong></summary>
+
 **先帮你把最关键的几步挑出来。** 一盘棋几十步，复盘会挑出值得停下来看、去练的关键局面：哪里开始偏离、哪一步丢子、哪里错过将死。
 
 **关键复盘：实战走法 vs 改进走法。** 每一步都用一句话讲清楚为什么，棋盘上直接画出箭头，点一下就能对比当时的实际走法和更好的走法。
 
 ![关键复盘：改进走法](docs/screenshots/lesson-better.png)
 
+</details>
+
+<details>
+<summary><strong>自己试走</strong></summary>
+
 **自己试走。** 先不看答案，从真实局面出发自己走一步，网页会判断走法是否合法、是否就是更好的那一手，并给提示。
 
 ![自己试走并得到反馈](docs/screenshots/practice.png)
+
+</details>
+
+<details>
+<summary><strong>整盘回放</strong></summary>
 
 **整盘回放。** 逐步前进、后退或自动播放，随时翻转棋盘，下载 PGN 到其他软件继续研究。
 
 ![整盘回放](docs/screenshots/replay.png)
 
+</details>
+
+<details>
+<summary><strong>复盘档案</strong></summary>
+
 **复盘档案。** 所有对局按日期收在同一个网页里，可以搜索对手、筛选执白执黑，每盘都能完整互动。
 
 ![复盘档案总入口](docs/screenshots/library.png)
+
+</details>
+
+<details>
+<summary><strong>手机与离线使用</strong></summary>
 
 **手机也能看。** 单个 HTML 文件，发到手机上直接打开，没有网络也能用。
 
 <img src="docs/screenshots/mobile.png" alt="手机上的复盘页面" width="360">
 
+</details>
+
+*截图来自虚构教学棋谱和公开历史棋局，不是使用者的私人记录。*
+
+</details>
+
 ### 二、Common leaks 分析
+
+找出不同棋局里反复出现的失误，对比原走法和更好的处理方法。完成至少 **10 盘不同棋局的复盘**后，由你选择开启；之后新复盘会继续补充案例。
+
+<details>
+<summary><strong>展开 Common leaks 详情与截图</strong></summary>
 
 **Common leaks：找到反复犯的错。** 把不同棋局里的同类失误放在一起，点击例子就能回到当时的局面。只出现一次标为「新发现」，至少两盘出现才标为「多盘复现」。
 
@@ -95,13 +155,22 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 完成至少 **10 盘不同棋局的复盘**后，由你选择开启。每次新增复盘，旧问题补充案例，新问题加入档案；仅下载棋谱不计入门槛。
 
+</details>
+
 ### 三、进步分析
+
+通过真实好棋和前后对比，看见自己哪些地方做得更好了。进步记录放在独立标签里，既能看到仍需练习的习惯，也能看到已经取得的进步。
+
+<details>
+<summary><strong>展开进步分析详情与截图</strong></summary>
 
 **看见自己的进步。** 独立的「进步记录」标签保存真实好棋，有可比证据时展示前后变化；一次做对不会直接判定为已修复漏洞。
 
 ![进步记录：较早的走法与后来处理得更好的走法](docs/screenshots/common-leaks-progress.png)
 
 *Common leaks 和进步分析截图使用虚构教学棋谱，实际使用时展示你自己的对局。*
+
+</details>
 
 ## 和其他复盘方式有什么不同
 

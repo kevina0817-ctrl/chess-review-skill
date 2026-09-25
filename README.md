@@ -1,5 +1,7 @@
 # Chess Review Open 3.0 · 国际象棋互动复盘技能
 
+**[English version →](https://github.com/kevina0817-ctrl/chess-review-skill-en)**
+
 ## Purpose
 
 把你刚下完的一盘棋（PGN 棋谱）交给 AI 编程助手，几分钟后得到一个可以直接在浏览器里打开的**互动复盘网页**：哪一步走错了、当时应该怎么走、自己在棋盘上再试一次。中文讲解，离线可用，不需要注册任何网站。

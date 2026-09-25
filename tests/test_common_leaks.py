@@ -50,6 +50,18 @@ class CommonLeaksTests(unittest.TestCase):
         for f in (self.root/'generated').glob('*'):
             if f.suffix in ('.html','.pgn'):shutil.copy2(f,self.root/f.name)
 
+    def test_opponent_lesson_cannot_be_user_progress(self):
+        cfg=json.loads((ROOT/'plugins/chess-review/skills/chess-review-open/examples/white-review.json').read_text())
+        cfg['archive_date']=self.stems[0][:10]
+        cfg['lessons'][0].update(ply=5,actor='opponent',positive=True,better=['g6'],assert_mate=False,actual_plies=2)
+        config=self.root/'opponent.json';config.write_text(json.dumps(cfg))
+        built=build(self.root/(self.stems[0]+'.pgn'),config,self.root/'opponent-out')
+        shutil.copy2(built['html'],self.root/(self.stems[0]+'.html'))
+        d={'user':'Learner','groups':[{'id':'defense'}]}
+        clip={'stem':self.stems[0],'ply':5,'captions':['start','reply','mate']}
+        with self.assertRaisesRegex(ValueError,'before the user moves'):
+            leaks.progress_clip(self.root,clip,d,positive=True)
+
     def test_incremental_progress_dedup_and_integrity(self):
         for i in range(11):self.make_review(i)
         d={'version':2,'user':'Learner','groups':[],'cases':[],'pieces':{},'assessments':[]}

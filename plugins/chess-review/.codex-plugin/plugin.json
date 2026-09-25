@@ -1,15 +1,15 @@
 {
   "name": "chess-review",
-  "version": "2.0.0",
-  "description": "Chess.com 用户名自动取谱与中文互动复盘；累计 10 盘复盘后可开启持续更新的常见漏洞与进步档案。",
+  "version": "3.0.0",
+  "description": "Chess.com 自动取谱，双方关键步、分数曲线、优劣势条、威胁推演与开局学习；支持跨局漏洞与进步档案。",
   "author": {
     "name": "Mission Nine Lab Inc."
   },
   "skills": "./skills/",
   "interface": {
-    "displayName": "Chess Review Open 2.0 · 国际象棋互动复盘",
-    "shortDescription": "自动取谱、互动复盘，以及持续积累的常见漏洞与进步。",
-    "longDescription": "首次告诉代理 Chess.com 用户名，以后直接请求 review 最新一盘。支持 PGN 输入；积累至少 10 盘已完成复盘后，按需开启 Common leaks 并随新棋局增量更新。",
+    "displayName": "Chess Review Open 3.0 · 国际象棋互动复盘",
+    "shortDescription": "双方复盘、数据曲线、威胁推演，以及跨局漏洞与进步。",
+    "longDescription": "告诉代理 Chess.com 用户名，以后直接复盘最新一盘，也支持 PGN。生成双方关键步、走法质量参考分、局面曲线、优劣势条、威胁推演与开局学习。积累至少 10 盘已完成复盘后，按需开启 Common leaks 并随新棋局增量更新。默认只输出使用者本地 HTML。",
     "developerName": "Mission Nine Lab Inc.",
     "category": "Productivity",
     "capabilities": [

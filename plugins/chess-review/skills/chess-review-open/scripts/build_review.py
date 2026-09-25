@@ -10,11 +10,12 @@ import re
 from pathlib import Path
 import chess.svg
 from chess_common import chess, load_game, label, snapshot
+from review_analytics import build_analytics, identify_opening
 
 def esc(value): return html.escape(str(value),quote=True)
 def paragraphs(values): return ''.join('<p>'+esc(v)+'</p>' for v in values)
 
-def build(pgn_path,review_path,out_dir,game_index=None):
+def build(pgn_path,review_path,out_dir,game_index=None,analysis_path=None):
     config=json.loads(Path(review_path).read_text(encoding='utf-8'))
     game,boards,moves,pgn=load_game(pgn_path,game_index)
     color=config['user_color']
@@ -33,13 +34,16 @@ def build(pgn_path,review_path,out_dir,game_index=None):
         item=dict(raw);ply=item['ply']
         if isinstance(ply,bool) or not isinstance(ply,int) or ply<0 or ply>=len(boards):raise ValueError('Invalid lesson ply')
         board=boards[ply]
-        if board.turn!=user_color:raise ValueError(f'Lesson at ply {ply} is not the user’s turn')
+        actor=item.get('actor','user')
+        if actor not in ('user','opponent'):raise ValueError('Lesson actor must be user or opponent')
+        if board.turn!=(user_color if actor=='user' else not user_color):raise ValueError(f'Lesson at ply {ply} has wrong actor')
+        item['actor']=actor
         for field in ['tag','title','summary','why','fix','habit','hint']:
             if not isinstance(item.get(field),str) or not item[field].strip():raise ValueError(f'Missing lesson {field}')
         count=item.get('actual_plies',4)
         if not isinstance(count,int) or count<1:raise ValueError('actual_plies must be a positive integer')
         item['number']=board.fullmove_number
-        item['color']=color;item['side']='白方' if user_color else '黑方'
+        item['color']='white' if board.turn else 'black';item['side']='白方' if board.turn else '黑方'
         item['played']=board.san(moves[ply]) if ply<len(moves) else ''
         item['actualStates']=[snapshot(board)]+states[ply+1:min(ply+1+count,len(states))]
         item['actual']=[state['san'] for state in item['actualStates'][1:]]
@@ -72,8 +76,15 @@ def build(pgn_path,review_path,out_dir,game_index=None):
           'user_color':color,'user_name':user_name,'date':date,'stem':stem,
           'endLabel':result_text,'endDescription':config['ending'],
           'noteKey':'chess-review-'+date+'-'+hashlib.sha256((pgn+color).encode()).hexdigest()[:16]}
-    data={'meta':meta,'states':states,'lessons':lessons,'pieces':pieces,'pgn':pgn}
-    template=(Path(__file__).resolve().parent.parent/'assets/review-template.html').read_text(encoding='utf-8')
+    analytics=build_analytics(json.loads(Path(analysis_path).read_text(encoding='utf-8')),boards,moves,pgn) if analysis_path else None
+    opening=identify_opening(boards)
+    if opening and config.get('opening_notes'):
+        opening['notes']=str(config['opening_notes'])
+    data={'meta':meta,'states':states,'lessons':lessons,'pieces':pieces,'pgn':pgn,'analytics':analytics,'opening':opening}
+    assets=Path(__file__).resolve().parent.parent/'assets'
+    template=(assets/'review-template.html').read_text(encoding='utf-8')
+    template=template.replace('@@INSIGHTS_CSS@@',(assets/'insights.css').read_text(encoding='utf-8'))
+    template=template.replace('/*__INSIGHTS_JS__*/',(assets/'insights.js').read_text(encoding='utf-8'))
     link=game.headers.get('Link','')
     link_html='<a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">打开原对局 ↗</a>' if re.match(r'^https?://',link,re.I) else ''
     plan=''.join('<li><strong>'+esc(x['title'])+'</strong> '+esc(x['text'])+'</li>' for x in config['training'])
@@ -104,6 +115,6 @@ def build(pgn_path,review_path,out_dir,game_index=None):
     return {'html':str(html_path),'pgn':str(pgn_out),'positions':len(states),'lessons':len(lessons),'user_color':color}
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('pgn');p.add_argument('review_json');p.add_argument('--out-dir',required=True);p.add_argument('--game',type=int)
-    a=p.parse_args();print(json.dumps(build(a.pgn,a.review_json,a.out_dir,a.game),ensure_ascii=False))
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('pgn');p.add_argument('review_json');p.add_argument('--out-dir',required=True);p.add_argument('--game',type=int);p.add_argument('--analysis',help='Matching output from analyze_game.py')
+    a=p.parse_args();print(json.dumps(build(a.pgn,a.review_json,a.out_dir,a.game,a.analysis),ensure_ascii=False))
 if __name__=='__main__':main()

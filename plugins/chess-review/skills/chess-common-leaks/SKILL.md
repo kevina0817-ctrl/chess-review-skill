@@ -27,6 +27,8 @@ python "$REVIEW_SKILL_DIR/scripts/plan_common_leaks.py" chess-reviews --user CON
 
 读取 [完整格式与校验流程](../chess-review-open/references/common-leaks.md)。按 `plan.selected` 逐盘检查，全部记录 assessment；同类问题加入稳定 `group_id`，不同机制可新建分类。某类至少出现在两盘不同真实对局才叫“多盘复现”；单例标“新发现”。没有可信问题时记录 `none`，不得制造漏洞以凑数。
 
+3.0 的单盘页包含双方关键步。只使用用户本人走棋前的局面作为漏洞或进步证据；`actor: opponent` 的好棋或失误不能算成用户的表现，引擎示范也不是已发生的进步。参考分变化只是辅助指标，不能单凭平均分上涨判断某类漏洞已修复。
+
 以动画对比展示：同一起点的真实走法、建议走法、结果和一个训练动作。常见漏洞是默认标签，真实好棋与有证据的进步放在独立“进步记录”标签。没有相近机会不能断言已修复；成功、反例与样本范围都保留。
 
 生成同一个 `common-leaks.html`，浏览器验证后重建 `index.html`；已有文件沿用原路径。没有可收录案例时可交付检查结论、保留本地 assessment 工作记录，后续有证据再建动画页，不伪造空洞类别。

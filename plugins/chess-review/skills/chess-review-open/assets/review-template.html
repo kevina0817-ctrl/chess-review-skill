@@ -23,11 +23,11 @@
 </header>
 <main>
  <section id="insights" class="insights" aria-label="棋局数据总览" hidden>
-  <div class="insights-head"><div><span class="eyebrow">GAME INSIGHTS / 3.0</span><h2>这一盘，看见了什么？</h2></div><small>走法质量参考分<br>满分 100 · 不是棋力等级</small></div>
-  <p id="insight-empty" class="insights-note" hidden>这盘尚未附带匹配的引擎分析，暂不显示分数和曲线。原有教学与回放仍可使用。</p>
-  <div id="insight-grid" class="insight-grid"><div><div class="score-pair"><div class="score-card ours"><span>我方</span><strong id="score-user"></strong><small id="score-user-n"></small></div><div class="score-card"><span>对手</span><strong id="score-opponent"></strong><small id="score-opponent-n"></small></div></div><p id="score-caption" class="score-caption"></p><div id="phase-scores" aria-label="我方分阶段评分"></div></div>
+  <div class="insights-head"><div><span class="eyebrow">GAME INSIGHTS / 3.1</span><h2>这一盘，看见了什么？</h2></div><small>双方走法统计<br>与局面变化</small></div>
+  <p id="insight-empty" class="insights-note" hidden>这盘尚未附带匹配的引擎分析，暂不显示完整走法统计和曲线。原有教学与回放仍可使用。</p>
+  <div id="insight-grid" class="insight-grid"><div><div class="stats-pair"><section class="stats-card ours" aria-label="我方走法统计"><h3>我方</h3><dl id="stats-user"></dl></section><section class="stats-card" aria-label="对手走法统计"><h3>对手</h3><dl id="stats-opponent"></dl></section></div><p class="stats-caption">好棋仅统计复盘中已核对并收录的实战好棋；0 次表示暂未收录，不代表整盘没有好棋。</p></div>
   <div><div class="graph-legend"><span>↑ 白方占优</span><span>点击曲线回到这一手</span></div><svg id="eval-chart" viewBox="0 0 600 150" preserveAspectRatio="none" role="group" aria-label="双方局面评估曲线"></svg><div class="graph-legend"><span>↓ 黑方占优</span><span id="chart-current"></span></div><nav id="insight-events" class="insight-events" aria-label="双方关键事件"></nav></div></div>
-  <details id="metric-method"><summary>分数怎么算？</summary><p>单步先把白方兵值评估 cp 映射为指数：100 / (1 + exp(−0.00368208 × cp))；再计算走棋方前后指数下降 Δ，参考分为 clamp(103.1668 × exp(−0.04354 × Δ) − 3.1669, 0, 100)。下降为零计 100。</p><p>总分和各阶段分数取相应走法的算术平均，包含好棋与失误；单个大失误可能被平均数掩盖。它不是 Chess.com / Lichess 的整局准确率，也不是你真实获胜的概率。参考 <a href="https://lichess.org/page/accuracy" target="_blank" rel="noopener noreferrer">Lichess 单步公式</a>，整局汇总由本插件定义。</p><p>Δ ≥ 20 / 10 / 5 分别标记严重失误 / 失误 / 不精确（本插件阈值）。将杀指数按获胜方取 100、失败方取 0；规则判和取 50。平均兵值损失只统计前后都有 cp 的走法，不把将杀当成巨大兵值。</p><p>阶段为启发式分组：双方非兵子力合计 ≤ 13，或无后且 ≤ 26，计为残局；其余前 10 回合计开局，之后计中局（马象 3、车 5、后 9）。无样本不打分。</p><p id="metric-engine"></p></details>
+  <details id="metric-method"><summary>统计与曲线说明</summary><p>总手数按双方各自实际落子次数计算。严重失误与失误根据走法前后的引擎局面变化分别统计，两类不重复计数；它们是本复盘的分类，不等同于其他平台的分类。大幅占优或落后时，自动分类可能漏掉仍有教学价值的失误，请结合关键复盘查看。</p><p>好棋只计入已核对、明确标记为好棋的实战着法，同一步不重复计数。它不是整盘所有合理走法的数量，也不把普通的引擎首选自动算作好棋。</p><p>曲线和棋盘旁的优劣势条表示白方与黑方的局面变化，不是棋手的准确率、棋力或实际获胜概率。示范分支未经独立分析时显示「未分析」。</p><p id="metric-engine"></p></details>
  </section>
  <div class="workspace">
   <section class="board-column" aria-label="交互棋盘">

@@ -28,8 +28,12 @@ class AnalyticsTests(unittest.TestCase):
   b=build_analytics(self.data('black'),self.boards,self.moves,self.text)
   self.assertEqual(a['positions'],b['positions']);self.assertEqual(a['sides'],b['sides'])
   self.assertEqual(a['positions'][-1]['terminal'],'white');self.assertEqual(a['positions'][-1]['advantage'],100)
-  self.assertEqual(a['phases']['white']['endgame']['score'],None)
-  self.assertLess(a['sides']['black']['score'],a['sides']['white']['score'])
+  self.assertEqual(a['phases']['white']['endgame']['moves'],0)
+  self.assertEqual(a['sides']['white']['moves'],4)
+  self.assertEqual(a['sides']['black']['moves'],3)
+  self.assertEqual(a['sides']['white']['mistakes'],0)
+  self.assertEqual(a['sides']['black']['mistakes'],1)
+  self.assertEqual(a['sides']['black']['inaccuracies'],2)
   self.assertLess(a['sides']['white']['cp_samples'],a['sides']['white']['moves'])
  def test_reject_wrong_game_fen_order_and_illegal_pv(self):
   for change in ('hash','fen','order','pv','nan'):
@@ -47,7 +51,7 @@ class AnalyticsTests(unittest.TestCase):
   b=chess.Board('7k/5Q2/6K1/8/8/8/8/8 b - - 0 1')
   e=white_evaluation({'fen':b.fen(),'cp':0,'mate':None,'pv':[]},b,'white')
   self.assertEqual(e['terminal'],'draw');self.assertEqual(e['advantage'],50)
- def test_black_mate_and_score_bounds(self):
+ def test_black_mate_and_no_accuracy_scores(self):
   b=chess.Board()
   for san in ['f3','e5','g4','Qh4#']:b.push_san(san)
   self.assertTrue(b.is_checkmate())
@@ -55,7 +59,11 @@ class AnalyticsTests(unittest.TestCase):
    e=white_evaluation({'fen':b.fen(),'cp':None,'mate':0,'pv':[]},b,pov)
    self.assertEqual(e['terminal'],'black');self.assertEqual(e['advantage'],0)
   d=self.data();a=build_analytics(d,self.boards,self.moves,self.text)
-  self.assertTrue(all(0<=r['quality']<=100 for r in a['rows']))
+  self.assertTrue(all(0<=p['advantage']<=100 for p in a['positions']))
+  self.assertNotIn('formula_url',a)
+  self.assertTrue(all('quality' not in r for r in a['rows']))
+  self.assertTrue(all('score' not in s for s in a['sides'].values()))
+  self.assertTrue(all('score' not in s for phases in a['phases'].values() for s in phases.values()))
   self.assertTrue(all(r['cp_loss'] is None or r['cp_loss']>=0 for r in a['rows']))
  def test_opening_transposition_and_nonstandard_position(self):
   def boards(line):

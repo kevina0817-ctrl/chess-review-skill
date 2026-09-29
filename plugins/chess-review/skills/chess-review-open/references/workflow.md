@@ -40,7 +40,7 @@ PGN 解析器可能忽略无意义字符，仍须核对原输入的着法数量�
 .venv/bin/python "$SKILL_DIR/scripts/build_review.py" work/prepared/normalized.pgn work/review.json --analysis work/analysis.json --out-dir work/site-staging
 ```
 
-3.0 的分数、曲线、优劣势条和引擎后续来自 `--analysis` 指定的完整分析；不要手工填写分数。旧版分析文件缺少棋谱指纹时需重跑，不能伪造指纹绕过校验。无引擎时省略该参数，页面明确显示未分析。详细口径见 [数据与威胁](analytics.md)。
+3.1 的走法统计、曲线、优劣势条和引擎后续来自 `--analysis` 指定的完整分析；不计算或展示准确率式总分、阶段分或单步评分。旧版分析文件缺少棋谱指纹时需重跑，不能伪造指纹绕过校验。无引擎时省略该参数，页面明确显示未分析。详细口径见 [数据与威胁](analytics.md)。
 
 构建器会校验教学变化、执子方和将死标记，拒绝静默覆盖现有 HTML。验证后把正式 HTML、PGN 移入选定的输出目录（默认 `chess-reviews/`），运行：
 
@@ -63,7 +63,7 @@ node "$SKILL_DIR/scripts/check_library.cjs" chess-reviews/index.html work/librar
 
 如果宿主已有浏览器和 Playwright，可设置 `CHESS_REVIEW_PLAYWRIGHT` 为 Playwright 包路径、`CHESS_REVIEW_BROWSER` 为浏览器可执行路径。两者都基于当前机器。检查器支持从当前工作目录的 node_modules 查找依赖。
 
-3.0 带分析的成品另运行 `node "$SKILL_DIR/scripts/check_insights.cjs" REVIEW.html work/insights-qa`，检查曲线跳转、双方分数、翻转后的评估方向和引擎示范。
+3.1 带分析的成品另运行 `node "$SKILL_DIR/scripts/check_insights.cjs" REVIEW.html work/insights-qa`，检查曲线跳转、双方走法计数及评分已移除、翻转后的评估方向和引擎示范。
 
 检查全部关键步与合法试走、完整回放、下载、笔记隔离及桌面/窄屏。查看桌面和手机截图，确认棋子和中文可读，没有重叠。测试库建立独立副本，不修改用户的实际浏览器笔记。
 

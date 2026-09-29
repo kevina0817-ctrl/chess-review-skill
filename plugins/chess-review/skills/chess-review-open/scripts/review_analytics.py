@@ -6,9 +6,6 @@ import math
 from pathlib import Path
 from chess_common import chess, label, snapshot
 
-FORMULA_URL = 'https://lichess.org/page/accuracy'
-
-
 def white_evaluation(raw, board, perspective):
     if raw.get('fen') != board.fen():
         raise ValueError('Analysis FEN does not match the game position')
@@ -57,7 +54,7 @@ def phase(board):
 
 def summarize(rows):
     cp_rows = [r['cp_loss'] for r in rows if r['cp_loss'] is not None]
-    return {'moves':len(rows), 'score':round(sum(r['quality'] for r in rows)/len(rows),1) if rows else None,
+    return {'moves':len(rows),
             'acpl':round(sum(cp_rows)/len(cp_rows),1) if cp_rows else None,
             'cp_samples':len(cp_rows), 'blunders':sum(r['classification']=='blunder' for r in rows),
             'mistakes':sum(r['classification']=='mistake' for r in rows),
@@ -91,12 +88,11 @@ def build_analytics(analysis, boards, moves, pgn):
         before, after = positions[i:i+2]
         sign = 1 if boards[i].turn else -1
         loss = max(0., sign*(before['advantage']-after['advantage']))
-        quality = 100. if loss == 0 else max(0.,min(100.,103.1668*math.exp(-.04354*loss)-3.1669))
         cp_loss = max(0.,sign*(before['cp']-after['cp'])) if before['cp'] is not None and after['cp'] is not None else None
         preferred = len(before['forecast'])>1 and before['forecast'][1]['from'] == chess.square_name(move.from_square) and before['forecast'][1]['to'] == chess.square_name(move.to_square) and before['forecast'][1]['fen'] == boards[i+1].fen()
         kind = 'blunder' if loss >= 20 else 'mistake' if loss >= 10 else 'inaccuracy' if loss >= 5 else 'steady'
         rows.append({'ply':i,'move':label(boards[i],move),'side':'white' if boards[i].turn else 'black',
-                     'phase':phase(boards[i]),'loss':round(loss,2),'quality':round(quality,2),
+                     'phase':phase(boards[i]),'loss':round(loss,2),
                      'cp_loss':cp_loss,'classification':kind,'preferred':preferred,
                      'check':boards[i+1].is_check(),'capture':boards[i].is_capture(move)})
     return {'version':1,'engine':analysis.get('engine',{}),'screen_seconds':analysis.get('screen_seconds'),
@@ -104,7 +100,7 @@ def build_analytics(analysis, boards, moves, pgn):
             'sides':{side:summarize([r for r in rows if r['side']==side]) for side in ('white','black')},
             'phases':{side:{key:summarize([r for r in rows if r['side']==side and r['phase']==key])
                             for key in ('opening','middlegame','endgame')} for side in ('white','black')},
-            'formula_url':FORMULA_URL}
+            }
 
 
 def identify_opening(boards):

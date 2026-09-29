@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
-// Check actual user interactions, score orientation, and offline behavior.
+// Check actual user interactions, move counts, evaluation orientation, and offline behavior.
 const fs=require('fs'),path=require('path'),assert=require('assert');
 const {pathToFileURL}=require('url');
 const {chromium}=require(process.env.CHESS_REVIEW_PLAYWRIGHT||require.resolve('playwright',{paths:[process.cwd()]}));
@@ -28,9 +28,16 @@ async function main(){
    assert.equal(await page.locator('#eval-readout').innerText(),'未分析');
    assert(await page.locator('#forecast-open').isDisabled());
   }else{
-   assert.equal(await page.locator('#score-user').innerText(),String(a.sides[data.meta.user_color].score));
-   const opponent=data.meta.user_color==='white'?'black':'white';
-   assert.equal(await page.locator('#score-opponent').innerText(),String(a.sides[opponent].score));
+   assert.equal(await page.locator('#score-user, #score-opponent, #phase-scores, [id^="score-"]').count(),0);
+   assert(!/参考分|满分 100|分数怎么算/.test(await page.locator('body').innerText()));
+   for(const [id,side] of [['stats-user',data.meta.user_color],['stats-opponent',data.meta.user_color==='white'?'black':'white']]){
+    const stats=a.sides[side],good=new Set(data.lessons.filter(l=>l.positive&&l.color===side).map(l=>l.ply)).size;
+    for(const [key,value,unit] of [['moves',stats.moves,'手'],['blunders',stats.blunders,'次'],['mistakes',stats.mistakes,'次'],['good',good,'次']])assert.equal(await page.locator(`#${id} [data-stat="${key}"]`).innerText(),value+' '+unit);
+   }
+   assert(a.rows.every(r=>!Object.hasOwn(r,'quality')));
+   assert(Object.values(a.sides).every(s=>!Object.hasOwn(s,'score')));
+   assert(Object.values(a.phases).every(p=>Object.values(p).every(s=>!Object.hasOwn(s,'score'))));
+   assert(!(await page.locator('#insight-events button').evaluateAll(bs=>bs.some(b=>/参考分/.test(b.title)))));
    assert.equal(await page.locator('#eval-chart circle').count(),data.states.length);
    for(const i of [0,Math.floor((data.states.length-1)/2),data.states.length-1]){
     await page.locator('#eval-chart circle').nth(i).focus();await page.keyboard.press('Enter');

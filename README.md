@@ -1,18 +1,19 @@
-# Chess Review Open 3.0 · 国际象棋互动复盘技能
+# Chess Review Open 3.1 · 国际象棋互动复盘技能
 
 **[English version →](https://github.com/kevina0817-ctrl/chess-review-skill-en)**
 
-## Purpose
+## 用途
 
 把你刚下完的一盘棋（PGN 棋谱）交给 AI 编程助手，几分钟后得到一个可以直接在浏览器里打开的**互动复盘网页**：哪一步走错了、当时应该怎么走、自己在棋盘上再试一次。中文讲解，离线可用，不需要注册任何网站。
 
 适用于 Codex、Claude Code、Kimi 等支持 Agent Skills（`SKILL.md`）格式的 AI 助手。
 
-## Changelog
+## 更新记录
 
 | 版本 | 新增功能 | 你可以做什么 |
 |---|---|---|
-| 3.0 更新 | 双方复盘与数据 | 对手好棋与失误、走法质量参考分、阶段分项、可点击的局面曲线与优劣势条。 |
+| 3.1 更新 | 双方走法统计 | 显示双方总手数、严重失误、失误和已确认好棋次数；移除全部准确率式总分、阶段分和单步评分，保留局面曲线与优劣势条。 |
+| 3.0 更新 | 双方复盘与数据 | 学习对手好棋与失误，点击局面曲线回放关键一步。 |
 | 3.0 更新 | 威胁推演 | 从关键局面回放引擎建议后续，理解将军、吃子和将杀。 |
 | 3.0 更新 | 开局识别与学习 | 根据本盘实际局面识别开局，显示名称与 ECO 编号，并提供开局学习链接。 |
 | 2.0 更新 | Chess.com 自动取谱 | 告诉助手用户名，以后直接说「复盘最新一盘」，无需复制粘贴或提供密码。其他平台仍支持 PGN。 |
@@ -43,13 +44,13 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 先看一眼完整复盘：数据曲线、互动棋盘和关键步讲解，都在同一页里。
 
-![复盘整体展示：双方分数、局面曲线、棋盘和关键步讲解](docs/screenshots/review-overview.png)
+![复盘整体展示：双方走法统计、局面曲线、棋盘和关键步讲解](docs/screenshots/review-overview.png)
 
 *公开历史教学示例：1858 年歌剧院棋局。*
 
 ### 一、复盘
 
-看懂这盘棋，学习自己和对手的好棋与失误，并在棋盘上试走。结合分数、潜在威胁和开局计划，理解每个关键决定。
+看懂这盘棋，学习自己和对手的好棋与失误，并在棋盘上试走。结合走法统计、潜在威胁和开局计划，理解每个关键决定。
 
 <details>
 <summary><strong>展开复盘详情与截图</strong></summary>
@@ -57,13 +58,15 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 点击下面的小节，查看具体功能。
 
 <details>
-<summary><strong>双方好坏棋、分数与局面曲线</strong></summary>
+<summary><strong>双方走法统计与局面曲线</strong></summary>
 
 **双方一起看，数据跟着棋盘走。** 查看我方和对手的关键步、好棋与失误；点击评估曲线跳回实战，优劣势条随当前局面变化。
 
-**分数有依据。** 展示双方走法质量参考分、我方开局 / 中局 / 残局分项及样本数。它不是棋力等级或其他平台的整局准确率，详细算法可在页面展开。
+**直接看每类走法有多少次。** 我方和对手分别显示总手数、严重失误、失误和已确认好棋次数。严重失误与失误互不重复；好棋仅计算复盘中已核对、已收录的实战着法，0 次表示暂未收录，不表示整盘没有好棋。
 
-![3.0：双方参考分、阶段分项与可点击曲线](docs/screenshots/v3-insights.png)
+不再展示准确率式总分、阶段分或单步评分。局面曲线和优劣势条继续保留，用来观察白方与黑方的局面变化，不代表实际获胜概率。分类与曲线说明可在页面展开。
+
+![3.1：双方总手数、严重失误、失误、好棋次数与可点击曲线](docs/screenshots/v3-insights.png)
 
 </details>
 
@@ -228,7 +231,7 @@ plugins/chess-review/
     chess-common-leaks/   # 跨局漏洞分析与增量更新
 ```
 
-插件安装方式依所用助手而定。3.0 功能与验收见 [版本说明](docs/3.0-requirements.md)。详见 [设计说明](docs/2.0-design.md) 和 [运行说明](plugins/chess-review/skills/chess-review-open/references/workflow.md)。
+插件安装方式依所用助手而定。3.1 功能与验收见 [版本说明](docs/3.1-requirements.md)。详见 [设计说明](docs/2.0-design.md) 和 [运行说明](plugins/chess-review/skills/chess-review-open/references/workflow.md)。
 
 ## 许可证
 

@@ -1,6 +1,6 @@
 {
   "name": "chess-review",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Chess.com 自动取谱，双方关键步、走法统计与局面曲线、优劣势条、威胁推演与开局学习；支持跨局漏洞与进步档案。",
   "author": {
     "name": "Mission Nine Lab Inc."

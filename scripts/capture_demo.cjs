@@ -16,7 +16,7 @@ const {chromium} = require(process.env.CHESS_REVIEW_PLAYWRIGHT || 'playwright');
     await page.goto(pathToFileURL(path.resolve(input)).href);
     await page.evaluate(() => document.fonts.ready);
     if (!(await page.locator('body').innerText()).includes('10 盘虚构教学棋谱')) throw new Error('Only capture the fictional teaching demo.');
-    await captureRegion('.wrap > p', '#player', 'common-leaks-overview.png');
+    await captureRegion('.wrap > p', '#player', 'v3.1.1-common-leaks-overview.png');
     async function captureRegion(first, last, name) {
       await page.evaluate(() => window.scrollTo(0, 0));
       const clip = await page.evaluate(([a,b]) => {

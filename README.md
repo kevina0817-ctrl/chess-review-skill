@@ -12,6 +12,7 @@
 
 | 版本 | 新增功能 | 你可以做什么 |
 |---|---|---|
+| 3.1.1 更新 | 页面署名与联系 | 每个复盘、目录和跨局分析网页顶部均显示低调的 Mission9 Lab Inc 署名及联系邮箱。 |
 | 3.1 更新 | 双方走法统计 | 显示双方总手数、严重失误、失误和已确认好棋次数；移除全部准确率式总分、阶段分和单步评分，保留局面曲线与优劣势条。 |
 | 3.0 更新 | 双方复盘与数据 | 学习对手好棋与失误，点击局面曲线回放关键一步。 |
 | 3.0 更新 | 威胁推演 | 从关键局面回放引擎建议后续，理解将军、吃子和将杀。 |
@@ -42,9 +43,11 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 ## 功能展示
 
+所有生成网页的页眉均带有 **Mission9 Lab Inc** 和可点击的 **info@mission9lab.com**。署名采用小字号、自动换行，不遮挡棋盘；网页仍可离线使用，点击邮箱才会调用邮件客户端。
+
 先看一眼完整复盘：数据曲线、互动棋盘和关键步讲解，都在同一页里。
 
-![复盘整体展示：双方走法统计、局面曲线、棋盘和关键步讲解](docs/screenshots/review-overview.png)
+![复盘整体展示：双方走法统计、局面曲线、棋盘和关键步讲解](docs/screenshots/v3.1.1-review-overview.png)
 
 *公开历史教学示例：1858 年歌剧院棋局。*
 
@@ -126,7 +129,7 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 **复盘档案。** 所有对局按日期收在同一个网页里，可以搜索对手、筛选执白执黑，每盘都能完整互动。
 
-![复盘档案总入口](docs/screenshots/library.png)
+![复盘档案总入口](docs/screenshots/v3.1.1-library.png)
 
 </details>
 
@@ -152,7 +155,7 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 **Common leaks：找到反复犯的错。** 把不同棋局里的同类失误放在一起，点击例子就能回到当时的局面。只出现一次标为「新发现」，至少两盘出现才标为「多盘复现」。
 
-![Common leaks：同类问题放在一起，点击不同棋局查看](docs/screenshots/common-leaks-overview.png)
+![Common leaks：同类问题放在一起，点击不同棋局查看](docs/screenshots/v3.1.1-common-leaks-overview.png)
 
 **原走法 vs 建议走法。** 两块棋盘从同一个局面出发，分别回放实际走法和建议变化。可以播放、暂停、逐步对照，配合箭头和短句看清问题与改法。
 

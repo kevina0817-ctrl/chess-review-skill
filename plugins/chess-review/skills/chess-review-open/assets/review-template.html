@@ -12,10 +12,17 @@
 @media(max-width:720px){header,main,footer{padding-left:16px;padding-right:16px}header{padding-top:18px}.topline{align-items:start}.date{font-size:12px}.workspace,.notes-grid{grid-template-columns:1fr;gap:22px}.board-column{max-width:560px;width:100%;margin:auto}.meta{gap:6px 15px}.intro{font-size:14px}.panel{border-radius:9px}.notebook{margin-top:30px}.movelist{max-height:330px}.shortcut{display:none}.notes-grid{gap:12px}.coord{font-size:10px}.square img{width:88%;height:88%}.lesson-content{padding:18px}.lesson-list{padding:14px 18px 0}.brand{font-size:14px}}
 @media print{header,main,footer{padding:0}.workspace{display:block}.board-column{width:75%;margin:auto}.panel{box-shadow:none;margin-top:20px}.transport,.timeline,.board-options,.shortcut,.tabs,.choice,.lesson-list,.line-moves,.exports,.note-tools,textarea,details{display:none}.notebook{break-before:page}.notes-grid{display:block}.panel{border:0}body{background:white}}
 @@INSIGHTS_CSS@@
+
+/* Publisher credit: in normal flow, never over the chessboard. */
+.publisher-mark{display:flex;justify-content:flex-end;align-items:baseline;flex-wrap:wrap;gap:3px 12px;margin:0 0 14px;font-family:inherit;font-size:12px;line-height:1.6;color:#617168;font-weight:400;letter-spacing:normal}
+.publisher-mark span{font-weight:550}.publisher-mark a{color:inherit;text-decoration:none;overflow-wrap:anywhere}.publisher-mark a:hover,.publisher-mark a:focus-visible{text-decoration:underline}.publisher-mark a:focus-visible{outline:2px solid #235c45;outline-offset:3px}
+@media(max-width:380px){.publisher-mark{gap:2px 8px;font-size:11px}}
+@media print{.publisher-mark{color:#444}}
 </style>
 </head>
 <body>
 <header>
+ <div class="publisher-mark" role="note" aria-label="制作与联系"><span>Mission9 Lab Inc</span><a href="mailto:info@mission9lab.com">info@mission9lab.com</a></div>
  <div class="topline"><div class="brand">CHESS / 我的复盘笔记</div><div class="date">@@DATE@@</div></div>
  <h1>@@WHITE@@ <span>对阵</span> @@BLACK@@</h1>
  <div class="meta"><span>@@USER_META@@</span><span>@@OPPONENT_META@@</span><span>@@TIME_CONTROL@@</span><span class="won">@@RESULT@@</span></div>

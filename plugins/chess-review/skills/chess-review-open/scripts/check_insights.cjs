@@ -38,6 +38,40 @@ async function main(){
    assert(Object.values(a.sides).every(s=>!Object.hasOwn(s,'score')));
    assert(Object.values(a.phases).every(p=>Object.values(p).every(s=>!Object.hasOwn(s,'score'))));
    assert(!(await page.locator('#insight-events button').evaluateAll(bs=>bs.some(b=>/参考分/.test(b.title)))));
+
+   const whiteLabel='↑ 白方（'+(data.meta.user_color==='white'?'我':'对手')+'）占优';
+   const blackLabel='↓ 黑方（'+(data.meta.user_color==='black'?'我':'对手')+'）占优';
+   assert.equal(await page.locator('#chart-white-label').innerText(),whiteLabel);
+   assert.equal(await page.locator('#chart-black-label').innerText(),blackLabel);
+   await page.locator('#flip').click();
+   assert.equal(await page.locator('#chart-white-label').innerText(),whiteLabel);
+   assert.equal(await page.locator('#chart-black-label').innerText(),blackLabel);
+   await page.locator('#flip').click();
+   // Every event opens its own authored lesson, including across actor filters and modes.
+   const eventIndices=await page.locator('#insight-events button').evaluateAll(bs=>bs.map(b=>Number(b.dataset.lessonIndex)));
+   for(let i=0;i<eventIndices.length;i++){
+    const index=eventIndices[i],l=data.lessons[index];assert(l,'Event must have an exact authored lesson');
+    const opposite=l.actor==='user'?'opponent':'user';
+    const filter=page.locator(`[data-actor-filter="${opposite}"]`);
+    await page.locator('#tab-lessons').click();
+    if(await filter.isEnabled())await filter.click();
+    await page.locator('#try').click();
+    if(i%2===0)await page.locator('#tab-replay').click();
+    const event=page.locator('#insight-events button').nth(i);
+    if(i%3===0){await event.focus();await page.keyboard.press('Enter')}
+    else if(i%3===1){await event.focus();await page.keyboard.press('Space')}
+    else await event.click();
+    assert(await page.locator('#lessons-panel').isVisible());
+    assert(await page.locator('#replay-panel').isHidden());
+    assert(await page.locator('#forecast-panel').isHidden());
+    assert.equal(await page.locator('#tab-lessons').getAttribute('aria-pressed'),'true');
+    assert.equal(await page.locator('#actual').getAttribute('aria-pressed'),'true');
+    assert.equal(await page.locator('#lesson-title').innerText(),l.title);
+    assert.equal(await page.locator('#explain-text').innerText(),l.why);
+    assert.equal(await page.locator('#lesson-list button').nth(index).getAttribute('aria-pressed'),'true');
+    assert(await page.locator('#lesson-list button').nth(index).isVisible());
+    await assertBoard(l.actualStates[Math.min(1,l.actualStates.length-1)].fen);
+   }
    assert.equal(await page.locator('#eval-chart circle').count(),data.states.length);
    for(const i of [0,Math.floor((data.states.length-1)/2),data.states.length-1]){
     await page.locator('#eval-chart circle').nth(i).focus();await page.keyboard.press('Enter');

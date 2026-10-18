@@ -33,7 +33,7 @@
   <div class="insights-head"><div><span class="eyebrow">GAME INSIGHTS / 3.1</span><h2>这一盘，看见了什么？</h2></div><small>双方走法统计<br>与局面变化</small></div>
   <p id="insight-empty" class="insights-note" hidden>这盘尚未附带匹配的引擎分析，暂不显示完整走法统计和曲线。原有教学与回放仍可使用。</p>
   <div id="insight-grid" class="insight-grid"><div><div class="stats-pair"><section class="stats-card ours" aria-label="我方走法统计"><h3>我方</h3><dl id="stats-user"></dl></section><section class="stats-card" aria-label="对手走法统计"><h3>对手</h3><dl id="stats-opponent"></dl></section></div><p class="stats-caption">好棋仅统计复盘中已核对并收录的实战好棋；0 次表示暂未收录，不代表整盘没有好棋。</p></div>
-  <div><div class="graph-legend"><span>↑ 白方占优</span><span>点击曲线回到这一手</span></div><svg id="eval-chart" viewBox="0 0 600 150" preserveAspectRatio="none" role="group" aria-label="双方局面评估曲线"></svg><div class="graph-legend"><span>↓ 黑方占优</span><span id="chart-current"></span></div><nav id="insight-events" class="insight-events" aria-label="双方关键事件"></nav></div></div>
+  <div><div class="graph-legend"><span id="chart-white-label">↑ 白方占优</span><span>点击曲线回到这一手</span></div><svg id="eval-chart" viewBox="0 0 600 150" preserveAspectRatio="none" role="group" aria-label="双方局面评估曲线"></svg><div class="graph-legend"><span id="chart-black-label">↓ 黑方占优</span><span id="chart-current"></span></div><nav id="insight-events" class="insight-events" aria-label="双方关键事件"></nav></div></div>
   <details id="metric-method"><summary>统计与曲线说明</summary><p>总手数按双方各自实际落子次数计算。严重失误与失误根据走法前后的引擎局面变化分别统计，两类不重复计数；它们是本复盘的分类，不等同于其他平台的分类。大幅占优或落后时，自动分类可能漏掉仍有教学价值的失误，请结合关键复盘查看。</p><p>好棋只计入已核对、明确标记为好棋的实战着法，同一步不重复计数。它不是整盘所有合理走法的数量，也不把普通的引擎首选自动算作好棋。</p><p>曲线和棋盘旁的优劣势条表示白方与黑方的局面变化，不是棋手的准确率、棋力或实际获胜概率。示范分支未经独立分析时显示「未分析」。</p><p id="metric-engine"></p></details>
  </section>
  <div class="workspace">

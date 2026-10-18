@@ -367,10 +367,13 @@ def main():
     if not args.skip_rating_sync:
         from rating_history import update_from_config
         update_from_config(root, d)
+        from capability_history import update_from_config as update_capabilities
+        update_capabilities(root, d)
     template = (Path(__file__).resolve().parent.parent / 'assets/leaks-template.html').read_text()
     payload = json.dumps(d, ensure_ascii=False).replace('<', '\\u003c').replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
     rating_script = (Path(__file__).resolve().parent.parent / 'assets/rating-history.js').read_text()
-    output = template.replace('__RATING_SCRIPT__', rating_script).replace('__DATA__', payload)
+    capability_script = (Path(__file__).resolve().parent.parent / 'assets/capability-history.js').read_text()
+    output = template.replace('__RATING_SCRIPT__', rating_script).replace('__CAPABILITY_SCRIPT__', capability_script).replace('__DATA__', payload)
     temp = target.with_suffix('.html.tmp')
     temp.write_text(output)
     temp.replace(target)

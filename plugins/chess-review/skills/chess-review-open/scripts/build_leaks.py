@@ -325,6 +325,7 @@ def main():
     parser.add_argument('--merge', type=Path, help='Incremental groups/cases/assessments JSON')
     parser.add_argument('--export', type=Path, help='Export existing data without changing HTML')
     parser.add_argument('--replace-cases', action='store_true', help='Explicitly replace corrected cases with the same identity')
+    parser.add_argument('--skip-rating-sync', action='store_true', help='Keep the existing rating snapshot for offline rebuilds/tests')
     args = parser.parse_args()
     root = Path(args.directory).resolve()
     target = locate(root, args.page)
@@ -363,9 +364,13 @@ def main():
         print(json.dumps({'export': str(args.export), 'cases': len(d['cases'])})); return
     if not d['cases']:
         raise ValueError('No verified leak examples yet; do not fabricate an empty learning page')
+    if not args.skip_rating_sync:
+        from rating_history import update_from_config
+        update_from_config(root, d)
     template = (Path(__file__).resolve().parent.parent / 'assets/leaks-template.html').read_text()
     payload = json.dumps(d, ensure_ascii=False).replace('<', '\\u003c').replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
-    output = template.replace('__DATA__', payload)
+    rating_script = (Path(__file__).resolve().parent.parent / 'assets/rating-history.js').read_text()
+    output = template.replace('__RATING_SCRIPT__', rating_script).replace('__DATA__', payload)
     temp = target.with_suffix('.html.tmp')
     temp.write_text(output)
     temp.replace(target)

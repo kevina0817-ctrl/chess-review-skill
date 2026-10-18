@@ -14,12 +14,25 @@
 .publisher-mark span{font-weight:550}.publisher-mark a{color:inherit;text-decoration:none;overflow-wrap:anywhere}.publisher-mark a:hover,.publisher-mark a:focus-visible{text-decoration:underline}.publisher-mark a:focus-visible{outline:2px solid #235c45;outline-offset:3px}
 @media(max-width:380px){.publisher-mark{gap:2px 8px;font-size:11px}}
 @media print{.publisher-mark{color:#444}}
+
+#rating-section{margin-bottom:32px}.rating-head,.rating-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.rating-head h2{margin-top:6px}.rating-head select,.rating-toolbar select{max-width:100%;min-height:44px;border:1px solid var(--line);border-radius:8px;padding:6px;background:white;color:var(--ink)}.rating-toolbar{margin:22px 0 16px;font-size:14px}.rating-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.rating-stats article{background:white;border:1px solid var(--line);border-radius:12px;padding:18px}.rating-stats span,.rating-stats small{display:block;color:var(--muted);font-size:12px}.rating-stats strong{display:block;font-size:36px;line-height:1.5;font-variant-numeric:tabular-nums}.rating-stats article:first-child{background:var(--soft);border-color:transparent}.rating-plot{margin:22px 0 6px;background:white;border:1px solid var(--line);border-radius:12px;padding:12px 6px;overflow:hidden}.rating-plot svg{display:block;width:100%;height:auto;min-height:200px}.rating-controls{display:flex;align-items:center;gap:10px;margin:14px 0}.rating-controls input{flex:1;min-width:0;accent-color:var(--green)}.rating-controls output{font-size:12px;white-space:nowrap}.rating-detail{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--soft);padding:18px;border-radius:10px;font-size:14px;margin:14px 0}.rating-detail p{color:var(--muted);margin-top:5px}.rating-detail b{font-size:18px}.rating-method{margin-top:18px;font-size:14px}.rating-table-wrap{max-height:420px;overflow:auto}.rating-table{width:100%;border-collapse:collapse;font-size:13px}.rating-table th,.rating-table td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.rating-table th{position:sticky;top:0;background:var(--paper)}#progress-evidence{border-top:1px solid var(--line);padding-top:22px}#progress-evidence>summary{font-size:18px;margin-bottom:18px}#rating-empty{padding:40px 18px;text-align:center}@media(max-width:600px){.rating-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.rating-stats article{padding:12px}.rating-stats strong{font-size:30px}.rating-table th,.rating-table td{padding:9px 4px}.rating-head h2{font-size:23px}.rating-detail a{font-size:13px}}@media print{.rating-controls{display:none}}
 </style></head><body><main class="wrap">
 <nav class="top"><span><a href="./index.html">← 全部棋局</a></span><span id="archive-summary"></span></nav>
 <header>
  <div class="publisher-mark" role="note" aria-label="制作与联系"><span>Mission9 Lab Inc</span><a href="mailto:info@mission9lab.com">info@mission9lab.com</a></div><h1 id="page-title">我的常见漏洞<br>原来怎么走，下次怎么改。</h1><p id="page-intro" class="lead">左边回放你实际下过的棋，右边对比建议走法。从同一个局面出发，看清问题，再练下一次的选择。</p></header>
 <div class="learning-nav" role="tablist" aria-label="选择复盘内容"><button id="leaks-tab" role="tab" aria-selected="true" aria-controls="leaks-panel">常见漏洞 · Common leaks</button><button id="positive-nav" role="tab" aria-selected="false" aria-controls="positive-section" tabindex="-1" hidden>进步记录</button></div>
-<section id="positive-section" class="positive-section" role="tabpanel" tabindex="0" hidden aria-labelledby="positive-nav"><span class="eyebrow">你的进步记录</span><nav id="positive-tabs" class="cases" aria-label="选择进步证据"></nav><div class="positive-overview"><span id="positive-badge" class="positive-badge"></span><h2 id="positive-title"></h2><p id="positive-explanation"></p><p id="positive-context" class="notice"></p></div><div id="positive-cards" class="comparison"></div><div class="positive-lesson"><strong>值得继续保留的动作</strong><p id="positive-habit"></p><p id="positive-limit" class="notice"></p></div></section>
+<section id="positive-section" class="positive-section" role="tabpanel" tabindex="0" hidden aria-labelledby="positive-nav"><section id="rating-section" hidden aria-labelledby="rating-heading">
+<div class="rating-head"><div><span class="eyebrow">CHESS.COM / RATING HISTORY</span><h2 id="rating-heading">每一盘，连成成长的轨迹</h2></div><label>对局类型 <select id="rating-pool" aria-label="评分池"></select></label></div>
+<div class="rating-toolbar"><label>时间范围 <select id="rating-period" aria-label="评分时间范围"><option value="all">全部历史</option><option value="90">近 90 天</option><option value="30">近 30 天</option></select></label><span id="rating-range" class="notice"></span></div>
+<div class="rating-stats"><article><span>当前评分</span><strong id="rating-current">—</strong><small id="rating-current-date"></small></article><article><span>所选区间变化</span><strong id="rating-change">—</strong><small>区间末盘 − 区间首盘</small></article><article><span>区间最高评分</span><strong id="rating-peak">—</strong><small>已获取的赛后评分</small></article><article><span>区间计分对局</span><strong id="rating-count">—</strong><small id="rating-results"></small></article></div>
+<div class="rating-plot"><svg id="rating-chart" viewBox="0 0 1000 330" role="img" aria-label="评分随时间变化，可点选对局"></svg><p id="rating-empty" hidden>这个时间范围还没有评分记录。</p></div>
+<p class="notice">点击曲线查看某一盘；也可拖动滑块，或用左右按钮逐盘查看。</p>
+<div class="rating-controls"><button id="rating-prev" aria-label="上一盘评分">←</button><input id="rating-slider" type="range" min="0" max="0" value="0" aria-label="选择历史对局"><button id="rating-next" aria-label="下一盘评分">→</button><output id="rating-position"></output></div>
+<div id="rating-detail" class="rating-detail" aria-live="polite"><div><b id="rating-detail-title"></b><p id="rating-detail-meta"></p></div><a id="rating-game-link" target="_blank" rel="noopener">Chess.com 原始对局 ↗</a></div>
+<p id="rating-sync" class="notice"></p>
+<details class="rating-method"><summary>数据范围与评分说明</summary><p id="rating-coverage"></p><p>各评分池独立展示。曲线只使用标准国际象棋计分对局的赛后评分，横轴按结束日期排列；连线连接对局记录，不代表没有下棋时评分也在变化。对局中的对手分数也是赛后分数。</p><p>当前评分来自官方 stats 接口，历史点来自对局档案；缓存延迟、评分调整可能让两者暂时不同。相邻记录的分差不一定全部由一盘棋造成。评分反映比赛结果，短期涨跌不能单独证明某项能力已掌握；初期评分也可能大幅波动。</p><p>每次运行复盘时同步，页面本身不实时请求接口。<a href="https://www.chess.com/news/view/published-data-api" target="_blank" rel="noopener">Chess.com 官方数据说明 ↗</a></p></details>
+<details class="rating-method"><summary>全部对局明细（含不计分对局）</summary><p class="notice">跟随上方对局类型与时间范围筛选；日期以本地时区显示。</p><div class="rating-table-wrap"><table class="rating-table"><thead><tr><th>日期</th><th>对手</th><th>结果</th><th>我的赛后评分</th></tr></thead><tbody id="rating-rows"></tbody></table></div></details>
+</section><details id="progress-evidence" open><summary>好棋与改善的具体例子</summary><span class="eyebrow">真实棋局证据</span><nav id="positive-tabs" class="cases" aria-label="选择进步证据"></nav><div class="positive-overview"><span id="positive-badge" class="positive-badge"></span><h2 id="positive-title"></h2><p id="positive-explanation"></p><p id="positive-context" class="notice"></p></div><div id="positive-cards" class="comparison"></div><div class="positive-lesson"><strong>值得继续保留的动作</strong><p id="positive-habit"></p><p id="positive-limit" class="notice"></p></div></details></section>
 <div id="leaks-panel" role="tabpanel" tabindex="0" aria-labelledby="leaks-tab"><div id="leak-section"></div><nav id="groups" class="groups" aria-label="常见漏洞分类"></nav>
 <section aria-labelledby="group-title"><div class="section-head"><div><span class="eyebrow" id="group-number"></span><h2 id="group-title"></h2><p id="group-desc"></p></div><span class="count" id="case-count"></span></div><nav id="cases" class="cases" aria-label="同类问题的真实对局"></nav>
 <div id="player" class="compare-head"><p id="game-meta" class="game-meta"></p><h3 id="case-title"></h3><p class="same-start">同一个起点，两种选择。默认显示你走完关键一步后，两边棋盘的差别。</p><div class="compare-controls"><button id="same">① 看相同的起点</button><button id="first-moves" class="active">② 对比关键一步</button><button id="results">③ 看后续结果</button><button id="sequence">▶ 先播原走法，再播建议</button></div><p id="sequence-state" class="sequence-state" role="status">先看「你原来这样走」，再看「建议这样走」。</p></div>
@@ -70,24 +83,25 @@ $('positive-cards').classList.toggle('single-positive',!p.prior);}
 if(D.progress?.length){$('positive-nav').hidden=false;$('positive-nav').textContent='进步记录 · '+D.progress.length;D.progress.forEach((p,i)=>{const b=document.createElement('button');b.className='case';b.textContent=p.title;b.onclick=()=>selectProgress(i);$('positive-tabs').append(b)});selectProgress(0);}document.addEventListener('visibilitychange',()=>{if(document.hidden)stopProgress()});
 
 function selectLearningTab(progress, updateURL=false){
-  progress=Boolean(progress&&D.progress?.length);
+  progress=Boolean(progress&&(D.progress?.length||D.rating_history));
   stop();stopProgress();
   $('leaks-panel').hidden=progress;$('positive-section').hidden=!progress;
   for(const [id,selected] of [['leaks-tab',!progress],['positive-nav',progress]]){
     $(id).setAttribute('aria-selected',String(selected));$(id).tabIndex=selected?0:-1;
   }
-  $('page-title').innerHTML=progress?'你的进步记录<br>回看自己做对的那一步。':'我的常见漏洞<br>原来怎么走，下次怎么改。';
-  $('page-intro').textContent=progress?'用真实棋局看看自己做对了什么。有前后可比的例子时，再一起观察变化。':'左边回放你实际下过的棋，右边对比建议走法。从同一个局面出发，看清问题，再练下一次的选择。';
-  document.title=progress?'我的进步记录 · 复盘训练':'在棋盘上看懂我的常见漏洞 · 复盘训练';
+  $('page-title').innerHTML=progress?(D.rating_history?'你的成长趋势<br>看见长期的变化。':'你的进步记录<br>回看自己做对的那一步。'):'我的常见漏洞<br>原来怎么走，下次怎么改。';
+  $('page-intro').textContent=progress?(D.rating_history?'汇集 Chess.com 历史对局，按独立评分池观察走势。具体好棋与改善证据保留在下方。':'用真实棋局看看自己做对了什么。有前后可比的例子时，再一起观察变化。'):'左边回放你实际下过的棋，右边对比建议走法。从同一个局面出发，看清问题，再练下一次的选择。';
+  document.title=progress?'我的成长趋势 · 复盘训练':'在棋盘上看懂我的常见漏洞 · 复盘训练';
   if(updateURL)history.replaceState(null,'',progress?'#progress':'#leaks');
 }
 $('leaks-tab').onclick=()=>selectLearningTab(false,true);
 $('positive-nav').onclick=()=>selectLearningTab(true,true);
 for(const id of ['leaks-tab','positive-nav'])$(id).addEventListener('keydown',e=>{
-  if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)||!D.progress?.length)return;
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)||!(D.progress?.length||D.rating_history))return;
   e.preventDefault();const progress=e.key==='End'||(e.key!=='Home'&&id==='leaks-tab');
   selectLearningTab(progress,true);$(progress?'positive-nav':'leaks-tab').focus();
 });
+__RATING_SCRIPT__
 const tabFromHash=()=>selectLearningTab(['#progress','#positive-section'].includes(location.hash));
 window.addEventListener('hashchange',tabFromHash);tabFromHash();
 

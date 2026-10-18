@@ -75,6 +75,8 @@ def build(directory, output=None):
         source = leak.read_text(encoding='utf-8')
         if '<script id="visual-data"' in source:
             links.append('<a href="' + html.escape(leak.name, quote=True) + '">我的常见漏洞：原走法与建议对比 →</a>')
+            if '"rating_history"' in source:
+                links.append('<a href="' + html.escape(leak.name, quote=True) + '#progress">成长趋势：Chess.com 评分 →</a>')
     if links:
         content = content.replace('</header>', '<p style="margin:18px 0 0">' + ' · '.join(links) + '</p>\n</header>', 1)
     output.parent.mkdir(parents=True, exist_ok=True)

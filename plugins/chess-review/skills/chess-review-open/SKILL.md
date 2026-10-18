@@ -48,3 +48,7 @@ description: 连接用户提供的 Chess.com 用户名并自动取谱，或读�
 - `scripts/build_leaks.py`、`scripts/check_leaks.cjs`、`assets/leaks-template.html`：增量保存、去重、规则校验，以及双棋盘漏洞对比和真实进步回放。
 
 - `scripts/fetch_chesscom.py` 与 [用户名导入](references/chesscom-import.md)：记住用户自己提供的账号、串行读取公开已结束对局、校验棋谱与去重，随后继续完整复盘。
+
+## 可选评分成长趋势
+
+用户要求查看 Chess.com 历史评分时，按 [评分历史](references/rating-history.md) 启用。配置后每次复盘更新成长档案时自动同步完整历史；评分池独立展示，保留已有证据与旧快照。

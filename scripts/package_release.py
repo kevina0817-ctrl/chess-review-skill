@@ -13,7 +13,7 @@ SKIP = {'.git', '__pycache__', '.venv', 'node_modules', 'work', 'chess-reviews',
 
 
 def release_files():
-    for name in ('README.md', 'LICENSE', '.gitignore', 'docs', 'plugins', 'scripts', 'tests'):
+    for name in ('README.md', 'CHANGELOG.md', 'LICENSE', '.gitignore', 'docs', 'plugins', 'scripts', 'tests'):
         source = ROOT / name
         candidates = sorted(source.rglob('*')) if source.is_dir() else [source]
         for item in candidates:

@@ -19,7 +19,7 @@ def atomic_json(path, data):
 
 def request(url):
     result = subprocess.run(['curl', '--fail', '--silent', '--show-error', '--location',
-        '--max-time', '45', '--retry', '2', '--user-agent', 'ChessReview/3.1 (personal rating history)', url],
+        '--max-time', '45', '--retry', '2', '--user-agent', 'ChessReview/3.2 (rating history)', url],
         capture_output=True, text=True, check=True)
     return json.loads(result.stdout)
 

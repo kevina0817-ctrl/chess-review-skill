@@ -1,0 +1,8 @@
+[Event "Fictional teaching demo"]
+[Site "Local demo"]
+[Date "2000.01.09"]
+[White "Learner"]
+[Black "ExampleI"]
+[Result "1/2-1/2"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Nf6 1/2-1/2

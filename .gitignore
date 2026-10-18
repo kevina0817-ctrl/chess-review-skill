@@ -10,3 +10,5 @@ engine-cache/
 
 .chess-review-account.json
 .chess-review-preferences.json
+
+.chess-review-ratings.json

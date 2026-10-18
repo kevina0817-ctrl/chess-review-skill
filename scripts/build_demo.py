@@ -83,6 +83,8 @@ def main():
     (a.out/'leaks-plan.json').write_text(json.dumps(batch,ensure_ascii=False,indent=2))
     import subprocess
     subprocess.run([sys.executable,str(SKILL/'scripts/build_leaks.py'),str(a.out),'--user','Learner','--plan',str(a.out/'leaks-plan.json'),'--merge',str(a.out/'leaks-update.json')],check=True)
+    from build_growth_demo import attach
+    attach(a.out,SKILL)
     subprocess.run([sys.executable,str(SKILL/'scripts/build_library.py'),str(a.out)],check=True)
     page=a.out/'common-leaks.html';html=page.read_text();html=html.replace('<nav class="top">','<p style="font-size:13px;color:#617168;margin:0 0 16px">演示数据 · 10 盘虚构教学棋谱 · 不代表真实用户记录</p><nav class="top">',1);page.write_text(html)
     print(json.dumps({'demo':str(page),'reviewed_games':10,'cases':3,'progress':1}))

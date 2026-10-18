@@ -100,6 +100,7 @@ $('clear').onclick=()=>{$('search').value='';$('side').value='all';drawList();$(
 for(const [id,delta] of [['prev-game',-1],['next-game',1]])$(id).onclick=()=>{const visible=filtered(),index=visible.findIndex(game=>game.id===selected?.id),next=visible[index+delta];if(next)selectGame(next.id,true)};
 $('download-review').onclick=()=>{if(!selected)return;const url=URL.createObjectURL(new Blob([selected.html],{type:'text/html;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download=selected.id+'.html';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)};
 function showHome(){
+ if(!selected&&games.length)selectGame(games[0].id);
  $('search').value='';$('side').value='all';drawList();
  try{history.replaceState(null,'','#home')}catch{}
  window.scrollTo({top:0,behavior:'instant'});$('site-home').focus({preventScroll:true});

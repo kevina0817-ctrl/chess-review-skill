@@ -73,12 +73,15 @@ def build(directory, output=None):
     links = []
     for leak in leak_pages:
         source = leak.read_text(encoding='utf-8')
-        if '<script id="visual-data"' in source:
-            links.append('<a href="' + html.escape(leak.name, quote=True) + '">我的常见漏洞：原走法与建议对比 →</a>')
-            if '"rating_history"' in source:
-                links.append('<a href="' + html.escape(leak.name, quote=True) + '#progress">成长趋势：Chess.com 评分 →</a>')
-    if links:
-        content = content.replace('</header>', '<p style="margin:18px 0 0">' + ' · '.join(links) + '</p>\n</header>', 1)
+        match = re.search(r'<script id="visual-data" type="application/json">(.*?)</script>', source, re.S)
+        if match:
+            learning = json.loads(match.group(1))
+            href = html.escape(leak.name, quote=True)
+            links.append('<a id="site-leaks" href="' + href + '#leaks">常见漏洞</a>')
+            if learning.get('progress') or learning.get('rating_history') or learning.get('capability_history'):
+                links.append('<a id="site-progress" href="' + href + '#progress">成长趋势</a>')
+            break
+    content = content.replace('<!--__SITE_NAV_LINKS__-->', ''.join(links))
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_name(output.name + '.tmp')
     temporary.write_text(content, encoding='utf-8')

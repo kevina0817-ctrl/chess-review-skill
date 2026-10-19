@@ -46,8 +46,6 @@ Chess Review plugin 包含两个 skill：**`chess-review-open`** 负责单盘复
 
 ## 功能展示
 
-所有生成网页的页眉均带有 **Mission9 Lab Inc** 和可点击的 **info@mission9lab.com**。署名采用小字号、自动换行，不遮挡棋盘；网页仍可离线使用，点击邮箱才会调用邮件客户端。
-
 先看一眼完整复盘：数据曲线、互动棋盘和关键步讲解，都在同一页里。
 
 ![复盘整体展示：双方走法统计、局面曲线、棋盘和关键步讲解](docs/screenshots/v3.2-review-overview.png)
